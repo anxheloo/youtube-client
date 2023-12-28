@@ -1,24 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+import Menu from "./components/Menu";
+import Navbar from "./components/Navbar";
+import "../src/App.css";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Video from "./pages/Video";
+import Login from "./components/Login";
+
+const Container = styled.div`
+  display: flex;
+  height: auto;
+`;
+
+const Main = styled.div`
+  flex: 7;
+  background-color: #181818;
+`;
+
+const Wrapper = styled.div``;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <BrowserRouter>
+        <Menu></Menu>
+        <Main>
+          <Navbar></Navbar>
+
+          <Wrapper>
+            <Routes>
+              <Route path="/">
+                <Route index element={<Home />} />
+
+                <Route path="video">
+                  <Route path=":id" element={<Video />}></Route>
+                </Route>
+
+                <Route path="login" element={<Login />}></Route>
+              </Route>
+            </Routes>
+          </Wrapper>
+        </Main>
+      </BrowserRouter>
+    </Container>
   );
 }
 
