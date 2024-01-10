@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "../redux/userSlice";
@@ -127,6 +128,10 @@ const Login = () => {
 
       if (response.status === 200) {
         dispatch(actions.loginSuccess(response.data.user));
+
+        //we install it : > npm i js-cookie
+        //we import Cookies: import Cookies from "js-cookie";
+        Cookies.set("access_token", response.data.token);
       } else {
         console.log("Else case: something went wrong!");
       }
