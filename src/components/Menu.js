@@ -101,15 +101,22 @@ const Menu = () => {
           Home
         </Item>
 
-        <Item>
-          <ExploreIcon></ExploreIcon>
-          Explore
-        </Item>
+        <Link to={"/trends"} style={{ textDecoration: "none", color: "white" }}>
+          <Item>
+            <ExploreIcon></ExploreIcon>
+            Explore
+          </Item>
+        </Link>
 
-        <Item>
-          <SubscriptionsIcon></SubscriptionsIcon>
-          Subscriptions
-        </Item>
+        <Link
+          to={"/subscriptions"}
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <Item>
+            <SubscriptionsIcon></SubscriptionsIcon>
+            Subscriptions
+          </Item>
+        </Link>
 
         <HorizontalLine></HorizontalLine>
 

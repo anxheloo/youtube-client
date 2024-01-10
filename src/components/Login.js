@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+
+import { useSelector, useDispatch } from "react-redux";
+import { actions } from "../redux/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -10,6 +14,7 @@ const Container = styled.div`
   height: calc(
     100vh - 70px
   ); // we remove 70px which is the header from the height so it goes right in the middle
+  // background-color: red;
 `;
 
 const Wrapper = styled.div`
@@ -21,6 +26,7 @@ const Wrapper = styled.div`
   border: 1px solid black;
   gap: 10px;
   width: 20%;
+  min-width: 300px;
 `;
 
 const Title = styled.div``;
@@ -34,6 +40,7 @@ const InputField = styled.input`
   border: 1px solid black;
   caret-color: white;
   width: 80%;
+  color: white;
 `;
 
 const Button = styled.button`
@@ -49,24 +56,135 @@ const Button = styled.button`
 `;
 
 const Login = () => {
+  const [userLogin, setUserLogin] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [userRegister, setUserRegister] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const loading = useSelector((state) => state.user.loading);
+  const error = useSelector((state) => state.user.error);
+
+  const dispatch = useDispatch();
+
+  const handleInputEmail = (event) => {
+    setUserLogin((prevUserLogin) => ({
+      ...prevUserLogin,
+      email: event.target.value,
+    }));
+  };
+
+  const handleInputPassword = (event) => {
+    setUserLogin((prevUserLogin) => ({
+      ...prevUserLogin,
+      password: event.target.value,
+    }));
+  };
+
+  const handleRegisterUsername = (event) => {
+    setUserRegister((prevUserLogin) => ({
+      ...prevUserLogin,
+      username: event.target.value,
+    }));
+  };
+
+  const handleRegisterEmail = (event) => {
+    setUserRegister((prevUserLogin) => ({
+      ...prevUserLogin,
+      email: event.target.value,
+    }));
+  };
+
+  const handleRegisterPassword = (event) => {
+    setUserRegister((prevUserLogin) => ({
+      ...prevUserLogin,
+      password: event.target.value,
+    }));
+  };
+
+  const login = async () => {
+    const data = { email: userLogin.email, password: userLogin.password };
+
+    dispatch(actions.loginStart());
+
+    try {
+      const response = await axios.post(
+        `http://192.168.1.236:5001/api/auth/login`,
+        data
+      );
+
+      console.log(`These is response:`, response);
+      console.log(`These is response.status`, response.status);
+      console.log(`These is response.data`, response.data);
+      console.log(`These is response.data.user`, response.data.user);
+
+      if (response.status === 200) {
+        dispatch(actions.loginSuccess(response.data.user));
+      } else {
+        console.log("Else case: something went wrong!");
+      }
+    } catch (error) {
+      console.log("This is error:", error);
+    }
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>Sign in</Title>
         <SubTitle>to continue to AbdullahTube</SubTitle>
 
-        <InputField placeholder="username"></InputField>
-        <InputField placeholder="password"></InputField>
+        <InputField
+          placeholder="email"
+          value={userLogin.email}
+          onChange={handleInputEmail}
+        ></InputField>
+        <InputField
+          placeholder="password"
+          value={userLogin.password}
+          onChange={handleInputPassword}
+        ></InputField>
 
-        <Button>Sign in</Button>
+        <Button
+          onClick={() => {
+            console.log("These are values:", userLogin);
+            login();
+          }}
+        >
+          Sign in
+        </Button>
 
         <SubTitle>or</SubTitle>
 
-        <InputField placeholder="username"></InputField>
-        <InputField placeholder="email"></InputField>
-        <InputField placeholder="password"></InputField>
+        <InputField
+          placeholder="username"
+          value={userRegister.username}
+          onChange={handleRegisterUsername}
+        ></InputField>
+        <InputField
+          placeholder="email"
+          value={userRegister.email}
+          onChange={handleRegisterEmail}
+        ></InputField>
+        <InputField
+          placeholder="password"
+          value={userRegister.password}
+          onChange={handleRegisterPassword}
+        ></InputField>
 
-        <Button>Sign up</Button>
+        <Button
+          onClick={() => {
+            console.log("These are user register values:", userRegister);
+          }}
+        >
+          Sign up{" "}
+        </Button>
       </Wrapper>
 
       <div

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   background-color: #202020;
@@ -73,6 +74,10 @@ const SearchIconStyled = styled(SearchIcon)`
 `;
 
 const Navbar = () => {
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const loading = useSelector((state) => state.user.loading);
+  const error = useSelector((state) => state.user.error);
+
   return (
     <Container>
       <SearchInputContainer>
@@ -80,12 +85,16 @@ const Navbar = () => {
         <SearchIconStyled></SearchIconStyled>
       </SearchInputContainer>
 
-      <Link to={"/login"} style={{ textDecoration: "none" }}>
-        <SignInButton>
-          <AccountCircleIcon></AccountCircleIcon>
-          SIGN IN
-        </SignInButton>
-      </Link>
+      {currentUser ? (
+        <div></div>
+      ) : (
+        <Link to={"/login"} style={{ textDecoration: "none" }}>
+          <SignInButton>
+            <AccountCircleIcon></AccountCircleIcon>
+            SIGN IN
+          </SignInButton>
+        </Link>
+      )}
     </Container>
   );
 };

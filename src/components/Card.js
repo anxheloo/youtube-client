@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { format, render, cancel, register } from "timeago.js";
+import axios from "axios";
 
 const Container = styled.div`
-  width: ${(props) => props.type !== "sm" && "340px"};
+  width: ${(props) => props.type !== "sm" && "330px"};
   margin-bottom: ${(props) => (props.type === "sm" ? "20px" : "45px")};
   cursor: pointer;
   display: ${(props) => props.type === "sm" && "flex"};
@@ -56,23 +58,41 @@ const Info = styled.div`
   font-size: 14px;
 `;
 
-const Card = ({ type }) => {
+const Card = ({ type, video }) => {
+  const [channel, setChannel] = useState();
+
+  useEffect(() => {
+    const getChannel = async () => {
+      try {
+        const result = await axios.get(
+          `http://192.168.1.236:5001/api/users/${video.userId}`
+        );
+
+        setChannel(result.data.existingUser);
+      } catch (error) {
+        console.log("This is error:", error);
+      }
+    };
+
+    getChannel();
+  }, [video.userId]);
+
   return (
     <Link to="/video/test" style={{ textDecoration: "none" }}>
       <Container type={type}>
-        <Image
-          type={type}
-          src="https://i.ytimg.com/vi/PcxN5y-NbGo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDa5hZHfU-B1rKXZDlhoadu7nhSDw"
-        ></Image>
+        <Image type={type} src={video.videoImg}></Image>
         <Details type={type}>
           <ChannelImage
             type={type}
             src="https://yt3.googleusercontent.com/ytc/AIf8zZTDkajQxPa4sjDOW-c3er1szXkSAO-H9TiF4-8u_Q=s176-c-k-c0x00ffffff-no-rj"
           ></ChannelImage>
           <Texts>
-            <Title>Title</Title>
-            <ChannelName>freeCodeCamp.org</ChannelName>
-            <Info>1.3M views 1 year ago</Info>
+            <Title>{video.title}</Title>
+            <ChannelName>{channel?.name}</ChannelName>
+            <Info>
+              {video.views} views &nbsp; ‧ &nbsp;
+              {format(video.createdAt)}
+            </Info>
           </Texts>
         </Details>
       </Container>

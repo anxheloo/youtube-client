@@ -10,25 +10,24 @@ const Container = styled.div`
   padding: 22px 96px;
 `;
 
-const Home = () => {
+const Home = ({ type }) => {
   const [videos, setVideos] = useState([]);
 
   console.log("Inside Home screen!");
-  console.log("these are videos:", videos);
 
   useEffect(() => {
     const getVideos = async () => {
       console.log("Inside useEffect");
       try {
         const result = await axios.get(
-          "http://192.168.1.236:5001/api/videos/random"
+          `http://192.168.1.236:5001/api/videos/${type}`
         );
 
-        if (result.status === 200) {
+        console.log(`These are results from ${type}:`, result);
+
+        if (result.data.status === 200) {
           setVideos(result.data.videos);
-          console.log("these are random videos:", result);
-        } else {
-          return result.message;
+          console.log(`these are ${type} videos:`, result);
         }
       } catch (error) {
         console.log("This is error:", error);
@@ -36,13 +35,13 @@ const Home = () => {
     };
 
     getVideos();
-  }, []);
+  }, [type]);
 
   return (
     <Container>
       {videos.length > 0
-        ? videos.map((item) => {
-            return <Card></Card>;
+        ? videos.map((video) => {
+            return <Card key={video._id} video={video}></Card>;
           })
         : "Videos are fetching"}
 
