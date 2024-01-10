@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { VideoCallOutlined } from "@mui/icons-material";
 
 const Container = styled.div`
   background-color: #202020;
@@ -52,6 +53,7 @@ const SearchInput = styled.input`
   outline: none;
   border: none;
   caret-color: white;
+  color: white;
 `;
 
 const SignInButton = styled.button`
@@ -73,10 +75,22 @@ const SearchIconStyled = styled(SearchIcon)`
   color: white; /* Set the desired color */
 `;
 
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+`;
+
+const Avatar = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #999;
+`;
+
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
-  const loading = useSelector((state) => state.user.loading);
-  const error = useSelector((state) => state.user.error);
 
   return (
     <Container>
@@ -86,7 +100,13 @@ const Navbar = () => {
       </SearchInputContainer>
 
       {currentUser ? (
-        <div></div>
+        <User>
+          <VideoCallOutlined
+            style={{ color: "white", fontSize: "35px" }}
+          ></VideoCallOutlined>
+          <Avatar></Avatar>
+          <div style={{ color: "white" }}>{currentUser.name}</div>
+        </User>
       ) : (
         <Link to={"/login"} style={{ textDecoration: "none" }}>
           <SignInButton>

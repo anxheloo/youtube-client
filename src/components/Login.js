@@ -131,6 +131,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log("This is error:", error);
+      dispatch(actions.loginFailure());
     }
   };
 

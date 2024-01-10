@@ -17,6 +17,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   flex: 1;
@@ -86,6 +87,8 @@ const Title = styled.h2`
 `;
 
 const Menu = () => {
+  const currentUser = useSelector((state) => state.user.currentUser);
+
   return (
     <Container>
       <Wrapper>
@@ -130,17 +133,23 @@ const Menu = () => {
           History
         </Item>
 
-        <HorizontalLine></HorizontalLine>
-
-        <Link to={"/login"} style={{ textDecoration: "none", color: "white" }}>
-          <LoginPart>
-            Sign in to like videos, comment, and subscribe.
-            <SignInButton>
-              <AccountCircleIcon color="#3ea6ff"></AccountCircleIcon>
-              Sign in
-            </SignInButton>
-          </LoginPart>
-        </Link>
+        {!currentUser && (
+          <>
+            <HorizontalLine></HorizontalLine>
+            <Link
+              to={"/login"}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <LoginPart>
+                Sign in to like videos, comment, and subscribe.
+                <SignInButton>
+                  <AccountCircleIcon color="#3ea6ff"></AccountCircleIcon>
+                  Sign in
+                </SignInButton>
+              </LoginPart>
+            </Link>
+          </>
+        )}
 
         <HorizontalLine></HorizontalLine>
 
