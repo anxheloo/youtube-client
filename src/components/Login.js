@@ -120,6 +120,7 @@ const Login = () => {
       );
 
       console.log(`These is response:`, response);
+      console.log(`These is response.cookie`, response.cookie);
       console.log(`These is response.status`, response.status);
       console.log(`These is response.data`, response.data);
       console.log(`These is response.data.user`, response.data.user);
