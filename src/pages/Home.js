@@ -19,7 +19,7 @@ const Home = ({ type }) => {
       try {
         const result = await axios.get(
           // `http://192.168.1.236:5001/api/videos/${type}`,
-          `https://main--serene-halva-217c80.netlify.app/api/videos/${type}`
+          `https://youtube-server-pua8.onrender.com/api/videos/${type}`
         );
         console.log(`These are results from ${type}:`, result);
 
