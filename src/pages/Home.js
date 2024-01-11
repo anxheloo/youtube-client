@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Card from "../components/Card";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const Container = styled.div`
   display: flex;
@@ -13,16 +14,12 @@ const Container = styled.div`
 const Home = ({ type }) => {
   const [videos, setVideos] = useState([]);
 
-  console.log("Inside Home screen!");
-
   useEffect(() => {
     const getVideos = async () => {
-      console.log("Inside useEffect");
       try {
         const result = await axios.get(
           `http://192.168.1.236:5001/api/videos/${type}`
         );
-
         console.log(`These are results from ${type}:`, result);
 
         if (result.data.status === 200) {
@@ -44,16 +41,6 @@ const Home = ({ type }) => {
             return <Card key={video._id} video={video}></Card>;
           })
         : "Videos are fetching"}
-
-      {/* <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card> */}
     </Container>
   );
 };

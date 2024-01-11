@@ -117,21 +117,20 @@ const Login = () => {
     try {
       const response = await axios.post(
         `http://192.168.1.236:5001/api/auth/login`,
-        data
+        data,
+        {
+          // credentials: "include",
+          withCredentials: true,
+        }
       );
-
       console.log(`These is response:`, response);
-      console.log(`These is response.cookie`, response.cookie);
-      console.log(`These is response.status`, response.status);
-      console.log(`These is response.data`, response.data);
-      console.log(`These is response.data.user`, response.data.user);
 
       if (response.status === 200) {
         dispatch(actions.loginSuccess(response.data.user));
 
         //we install it : > npm i js-cookie
         //we import Cookies: import Cookies from "js-cookie";
-        Cookies.set("access_token", response.data.token);
+        // await Cookies.set("access_token", response.data.token);
       } else {
         console.log("Else case: something went wrong!");
       }
