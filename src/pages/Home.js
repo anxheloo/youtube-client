@@ -18,7 +18,8 @@ const Home = ({ type }) => {
     const getVideos = async () => {
       try {
         const result = await axios.get(
-          `http://192.168.1.236:5001/api/videos/${type}`
+          // `http://192.168.1.236:5001/api/videos/${type}`,
+          `https://main--serene-halva-217c80.netlify.app/api/videos/${type}`
         );
         console.log(`These are results from ${type}:`, result);
 
