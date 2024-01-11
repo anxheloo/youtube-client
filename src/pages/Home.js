@@ -21,8 +21,8 @@ const Home = ({ type }) => {
           // `http://192.168.1.236:5001/api/videos/${type}`,
           `https://youtube-server-pua8.onrender.com/api/videos/${type}`,
           {
-            credentials: "include",
-            // withCredentials: true,
+            // credentials: "include",
+            withCredentials: true,
           }
         );
         console.log(`These are results from ${type}:`, result);

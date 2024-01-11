@@ -120,8 +120,8 @@ const Login = () => {
         `https://youtube-server-pua8.onrender.com/api/auth/login`,
         data,
         {
-          credentials: "include",
-          // withCredentials: true,
+          // credentials: "include",
+          withCredentials: true,
         }
       );
       console.log(`These is response:`, response);
