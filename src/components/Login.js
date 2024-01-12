@@ -155,13 +155,14 @@ const Login = () => {
           email: result.user.email,
           img: result.user.photoURL,
         };
+
         axios.post(
           "https://youtube-server-pua8.onrender.com/api/auth/google",
           data
         );
       })
       .then((response) => {
-        dispatch(actions.loginSuccess(response.data.user));
+        dispatch(actions.loginSuccess(response.data));
       })
       .catch((error) => {
         // Handle Errors here.
