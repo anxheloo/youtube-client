@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "../redux/userSlice";
+import { auth, provider } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const Container = styled.div`
   display: flex;
@@ -116,8 +118,8 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        // `http://192.168.1.236:5001/api/auth/login`,
-        `https://youtube-server-pua8.onrender.com/api/auth/login`,
+        `http://192.168.1.236:5001/api/auth/login`,
+        // `https://youtube-server-pua8.onrender.com/api/auth/login`,
         data,
         {
           // credentials: "include",
@@ -139,6 +141,29 @@ const Login = () => {
       console.log("This is error:", error);
       dispatch(actions.loginFailure());
     }
+  };
+
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = provider.credentialFromResult(result);
+        // const token = credential.accessToken;
+        // // The signed-in user info.
+        // const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        console.log(result);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // // The email of the user's account used.
+        // const email = error.customData.email;
+        // // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(error);
+      });
   };
 
   return (
@@ -168,6 +193,8 @@ const Login = () => {
         </Button>
 
         <SubTitle>or</SubTitle>
+
+        <Button onClick={signInWithGoogle}>Sign in with Google</Button>
 
         <InputField
           placeholder="username"
