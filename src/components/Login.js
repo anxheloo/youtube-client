@@ -118,8 +118,8 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `http://192.168.1.236:5001/api/auth/login`,
-        // `https://youtube-server-pua8.onrender.com/api/auth/login`,
+        // `http://192.168.1.236:5001/api/auth/login`,
+        `https://youtube-server-pua8.onrender.com/api/auth/login`,
         data,
         {
           // credentials: "include",
@@ -155,7 +155,10 @@ const Login = () => {
           email: result.user.email,
           img: result.user.photoURL,
         };
-        axios.post("http://localhost:5001/api/auth/google", data);
+        axios.post(
+          "https://youtube-server-pua8.onrender.com/api/auth/google",
+          data
+        );
       })
       .than((response) => {
         dispatch(actions.loginSuccess(response.data.user));

@@ -67,6 +67,7 @@ const Card = ({ type, video }) => {
         const result = await axios.get(
           // `http://192.168.1.236:5001/api/users/${video.userId}`,
           `https://youtube-server-pua8.onrender.com/api/users/${video.userId}`,
+
           {
             // credentials: "include",
             withCredentials: true,
