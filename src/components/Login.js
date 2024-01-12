@@ -156,10 +156,12 @@ const Login = () => {
           img: result.user.photoURL,
         };
 
-        axios.post(
-          "https://youtube-server-pua8.onrender.com/api/auth/google",
-          data
-        );
+        axios.post("http://192.168.1.236:5001/api/auth/google/", data);
+
+        // axios.post(
+        //   "https://youtube-server-pua8.onrender.com/api/auth/google",
+        //   data
+        // );
       })
       .then((response) => {
         dispatch(actions.loginSuccess(response.data.user));
