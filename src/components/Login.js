@@ -160,7 +160,7 @@ const Login = () => {
           data
         );
       })
-      .than((response) => {
+      .then((response) => {
         dispatch(actions.loginSuccess(response.data.user));
       })
       .catch((error) => {
