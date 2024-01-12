@@ -143,16 +143,22 @@ const Login = () => {
     }
   };
 
-  const signInWithGoogle = () => {
+  const signInWithGoogle = async () => {
+    dispatch(actions.loginStart());
+
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = provider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // // The signed-in user info.
-        // const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
         console.log(result);
+
+        const data = {
+          name: result.user.displayName,
+          email: result.user.email,
+          img: result.user.photoURL,
+        };
+        axios.post("http://localhost:5001/api/auth/google", data);
+      })
+      .than((response) => {
+        dispatch(actions.loginSuccess(response.data.user));
       })
       .catch((error) => {
         // Handle Errors here.
@@ -163,6 +169,7 @@ const Login = () => {
         // // The AuthCredential type that was used.
         // const credential = GoogleAuthProvider.credentialFromError(error);
         console.log(error);
+        dispatch(actions.loginFailure());
       });
   };
 
