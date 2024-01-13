@@ -74,7 +74,11 @@ const Card = ({ type, video }) => {
           }
         );
 
+        console.log("These are results:", result)
+
         setChannel(result.data.existingUser);
+
+        console.log("this is result:", result)
       } catch (error) {
         console.log("This is error:", error);
       }

@@ -148,7 +148,7 @@ const Login = () => {
 
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log(result);
+        console.log("THIS IS RESULTs:",result);
 
         const data = {
           name: result.user.displayName,
@@ -156,20 +156,23 @@ const Login = () => {
           img: result.user.photoURL,
         };
 
+        console.log("These are datas:", data)
+
         // axios.post("http://192.168.1.236:5001/api/auth/google/", data);
         // axios.post("http://192.168.0.103:5001/api/auth/google", data)
         axios.post(
           "https://youtube-server-pua8.onrender.com/api/auth/google",
           data
-        ).catch((error) => {
+        )
+        .catch((error) => {
               console.error("Error during Google sign-in:", error);
               dispatch(actions.loginFailure());
             })
       }).then((response) => {
-        dispatch(actions.loginSuccess(response.data.user));
+        // dispatch(actions.loginSuccess(response.data.user));
         console.log("this is response:", response)
-        console.log("this is response.data:", response.data)
-        console.log("this is response.data.user:", response.data.user)
+        // console.log("this is response.data:", response.data)
+        // console.log("this is response.data.user:", response.data.user)
       })
       .catch((error) => {
         console.log("this is error:", error);

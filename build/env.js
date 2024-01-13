@@ -3,7 +3,7 @@ window.env = {
   "ANDROID_HOME": "C:\\Users\\GridComputers\\AppData\\Local\\Android\\Sdk",
   "API_KEY": "AIzaSyC9dlNikRUCFTTwfUEI-5pN1GJdEkfpQCs",
   "APPDATA": "C:\\Users\\GridComputers\\AppData\\Roaming",
-  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\crashpad_14868_PLUGJZCLIYKASVNB",
+  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\crashpad_14808_KYFBNXSCVMRRQFWO",
   "COLOR": "1",
   "COLORTERM": "truecolor",
   "CommonProgramFiles": "C:\\Program Files\\Common Files",
