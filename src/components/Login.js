@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { actions } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
+import { act } from "react-dom/test-utils";
 
 const Container = styled.div`
   display: flex;
@@ -129,7 +130,7 @@ const Login = () => {
 
       if (response.status === 200) {
         dispatch(actions.loginSuccess(response.data.user));
-         localStorage.setItem('token', JSON.stringify(response.data.token));
+        localStorage.setItem("token", JSON.stringify(response.data.token));
         //we install it : > npm i js-cookie
         //we import Cookies: import Cookies from "js-cookie";
         // await Cookies.set("access_token", response.data.token);
@@ -143,45 +144,44 @@ const Login = () => {
   };
 
   const signInWithGoogle = async () => {
+    dispatch(actions.loginStart());
+    try {
+      const result = await signInWithPopup(auth, provider);
 
-         dispatch(actions.loginStart());
-    try{
-      const result = await signInWithPopup(auth, provider)
-      // .then( async(result) => {
-      //   console.log("THIS IS result from signInWithPopup:",result);
+      console.log("THIS IS result from signInWithPopup:", result);
 
-      //   const data = {
-      //     name: result.user.displayName,
-      //     email: result.user.email,
-      //     img: result.user.photoURL,
-      //   };
-
-      console.log("THIS IS result from signInWithPopup:",result);
-
-        // axios.post("http://192.168.1.236:5001/api/auth/google/", data);
-        //  const response = await axios.post("http://192.168.0.103:5001/api/auth/google", data)
-        const response = await axios.post(
-          "https://youtube-server-pua8.onrender.com/api/auth/google",
-          {name: result.user.displayName,
+      // axios.post("http://192.168.1.236:5001/api/auth/google/", data);
+      //  const response = await axios.post("http://192.168.0.103:5001/api/auth/google", data)
+      const response = await axios.post(
+        "https://youtube-server-pua8.onrender.com/api/auth/google",
+        {
+          name: result.user.displayName,
           email: result.user.email,
-          img: result.user.photoURL})
-            // .catch((error) => {
-            //   console.error("Error during Google sign-in:", error);
-            //   dispatch(actions.loginFailure());
-            // })})
+          img: result.user.photoURL,
+        }
+      );
 
-            console.log("this is response:", response)
+      console.log("this is response:", response);
 
-            console.log("this is response.status:", response.status)
-             console.log("this is response[0]:", response[0])
+      console.log("this is response.status:", response.status);
+      console.log("this is response[0]:", response[0]);
 
-    }catch(error){
-        console.log("this is error:", error);
-        dispatch(actions.loginFailure())}
-
+      if (response.status === 200) {
+        dispatch(actions.loginSuccess(response.data.user));
+        localStorage.setItem("token", JSON.stringify(response.data.token));
+      } else {
+        console.log(
+          "Response not 200:",
+          "SOmething went wrong with response:",
+          "this is response.status:",
+          response.status
+        );
+      }
+    } catch (error) {
+      console.error("Error during Google sign-in:", error);
+      dispatch(actions.loginFailure());
+    }
   };
-
-
 
   return (
     <Container>
