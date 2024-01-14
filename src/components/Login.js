@@ -172,6 +172,9 @@ const Login = () => {
 
             console.log("this is response:", response)
 
+            console.log("this is response.status:", response.status)
+             console.log("this is response[0]:", response[0])
+
     }catch(error){
         console.log("this is error:", error);
         dispatch(actions.loginFailure())}
