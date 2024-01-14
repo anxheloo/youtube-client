@@ -3,7 +3,7 @@ window.env = {
   "ANDROID_HOME": "C:\\Users\\GridComputers\\AppData\\Local\\Android\\Sdk",
   "API_KEY": "AIzaSyC9dlNikRUCFTTwfUEI-5pN1GJdEkfpQCs",
   "APPDATA": "C:\\Users\\GridComputers\\AppData\\Roaming",
-  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\crashpad_14808_KYFBNXSCVMRRQFWO",
+  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\crashpad_15916_NDZJJEOQNHQTZMRB",
   "COLOR": "1",
   "COLORTERM": "truecolor",
   "CommonProgramFiles": "C:\\Program Files\\Common Files",
@@ -13,7 +13,7 @@ window.env = {
   "ComSpec": "C:\\WINDOWS\\system32\\cmd.exe",
   "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
   "EDITOR": "C:\\WINDOWS\\notepad.exe",
-  "EFC_8416": "1",
+  "EFC_7516": "1",
   "FPS_BROWSER_APP_PROFILE_STRING": "Internet Explorer",
   "FPS_BROWSER_USER_PROFILE_STRING": "Default",
   "GIT_ASKPASS": "c:\\Users\\GridComputers\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\extensions\\git\\dist\\askpass.sh",
@@ -86,6 +86,6 @@ window.env = {
   "VSCODE_GIT_ASKPASS_NODE": "C:\\Users\\GridComputers\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
   "VSCODE_GIT_IPC_HANDLE": "\\\\.\\pipe\\vscode-git-232ac34d8d-sock",
   "VSCODE_INJECTION": "1",
-  "VSCODE_NONCE": "aa1b7b37-f904-4505-8473-f70865886644",
+  "VSCODE_NONCE": "b1d91e68-0e4c-4b32-becb-213fa38f9048",
   "windir": "C:\\WINDOWS"
 };

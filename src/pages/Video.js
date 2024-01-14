@@ -7,6 +7,7 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import Comment from "../components/Comment";
 import Comments from "../components/Comments";
 import Card from "../components/Card";
+import { useSelector,useDispatch } from "react-redux";
 
 const Container = styled.div`
   display: flex;
@@ -115,6 +116,11 @@ const SubscribeBtn = styled.div`
 `;
 
 const Video = () => {
+
+  const dispatch = useDispatch()
+  const currentUser = useSelector((state) => state.user.currentUser);
+
+
   return (
     <Container>
       <Content>

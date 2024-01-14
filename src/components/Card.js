@@ -68,10 +68,10 @@ const Card = ({ type, video }) => {
           // `http://192.168.0.103:5001/api/users/${video.userId}`,
           `https://youtube-server-pua8.onrender.com/api/users/${video.userId}`,
 
-          {
-            // credentials: "include",
-            withCredentials: true,
-          }
+          // {
+          //   // credentials: "include",
+          //   withCredentials: true,
+          // }
         );
 
         console.log("These are results:", result)
@@ -88,7 +88,7 @@ const Card = ({ type, video }) => {
   }, [video.userId]);
 
   return (
-    <Link to="/video/test" style={{ textDecoration: "none" }}>
+    <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
         <Image type={type} src={video.videoImg}></Image>
         <Details type={type}>
