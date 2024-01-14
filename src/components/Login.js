@@ -159,26 +159,20 @@ const Login = () => {
         console.log("These are datas ready to be posted as body: ", data)
 
         // axios.post("http://192.168.1.236:5001/api/auth/google/", data);
-      //  const response = await axios.post("http://192.168.0.103:5001/api/auth/google", data)
-        const response = axios.post(
+        //  const response = await axios.post("http://192.168.0.103:5001/api/auth/google", data)
+        await axios.post(
           "https://youtube-server-pua8.onrender.com/api/auth/google",
-          data
-        )
-        .catch((error) => {
+            data
+          )
+            .catch((error) => {
               console.error("Error during Google sign-in:", error);
               dispatch(actions.loginFailure());
             })
 
-        if(response.status === 200){
-          console.log(" this is response:", response)
-           dispatch(actions.loginSuccess(response.data.user));
-           localStorage.setItem('token', JSON.stringify(response.data.token));
-
-
-        } else{
-          console.log("Code falls in else case")
-            dispatch(actions.loginFailure());
-        }
+      }).then((res) => {
+                  console.log(" this is response:", res)
+           dispatch(actions.loginSuccess(res.data.user));
+           localStorage.setItem('token', JSON.stringify(res.data.token));
       })
       .catch((error) => {
         console.log("this is error:", error);
