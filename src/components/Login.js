@@ -118,7 +118,7 @@ const Login = () => {
     try {
       const response = await axios.post(
         // `http://192.168.0.103:5001/api/auth/login`,
-        // `https://youtube-server-pua8.onrender.com/api/auth/login`,
+        `https://youtube-server-pua8.onrender.com/api/auth/login`,
         data,
         {
           // credentials: "include",
@@ -159,15 +159,15 @@ const Login = () => {
         console.log("These are datas ready to be posted as body: ", data)
 
         // axios.post("http://192.168.1.236:5001/api/auth/google/", data);
-       const response = await axios.post("http://192.168.0.103:5001/api/auth/google", data)
-        // axios.post(
-        //   "https://youtube-server-pua8.onrender.com/api/auth/google",
-        //   data
-        // )
-        // .catch((error) => {
-        //       console.error("Error during Google sign-in:", error);
-        //       dispatch(actions.loginFailure());
-        //     })
+      //  const response = await axios.post("http://192.168.0.103:5001/api/auth/google", data)
+        const response = axios.post(
+          "https://youtube-server-pua8.onrender.com/api/auth/google",
+          data
+        )
+        .catch((error) => {
+              console.error("Error during Google sign-in:", error);
+              dispatch(actions.loginFailure());
+            })
 
         if(response.status === 200){
           console.log(" this is response:", response)
