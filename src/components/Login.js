@@ -144,41 +144,41 @@ const Login = () => {
 
   const signInWithGoogle = async () => {
 
-    dispatch(actions.loginStart());
+         dispatch(actions.loginStart());
+    try{
+      const result = await signInWithPopup(auth, provider)
+      // .then( async(result) => {
+      //   console.log("THIS IS result from signInWithPopup:",result);
 
-    signInWithPopup(auth, provider)
-      .then( async(result) => {
-        console.log("THIS IS result from signInWithPopup:",result);
+      //   const data = {
+      //     name: result.user.displayName,
+      //     email: result.user.email,
+      //     img: result.user.photoURL,
+      //   };
 
-        const data = {
-          name: result.user.displayName,
-          email: result.user.email,
-          img: result.user.photoURL,
-        };
-
-        console.log("These are datas ready to be posted as body: ", data)
+      console.log("THIS IS result from signInWithPopup:",result);
 
         // axios.post("http://192.168.1.236:5001/api/auth/google/", data);
         //  const response = await axios.post("http://192.168.0.103:5001/api/auth/google", data)
-        await axios.post(
+        const response = await axios.post(
           "https://youtube-server-pua8.onrender.com/api/auth/google",
-            data
-          )
-            .catch((error) => {
-              console.error("Error during Google sign-in:", error);
-              dispatch(actions.loginFailure());
-            })
+          {name: result.user.displayName,
+          email: result.user.email,
+          img: result.user.photoURL})
+            // .catch((error) => {
+            //   console.error("Error during Google sign-in:", error);
+            //   dispatch(actions.loginFailure());
+            // })})
 
-      }).then((res) => {
-                  console.log(" this is response:", res)
-           dispatch(actions.loginSuccess(res.data.user));
-           localStorage.setItem('token', JSON.stringify(res.data.token));
-      })
-      .catch((error) => {
+            console.log("this is response:", response)
+
+    }catch(error){
         console.log("this is error:", error);
-        dispatch(actions.loginFailure());
-      });
+        dispatch(actions.loginFailure())}
+
   };
+
+
 
   return (
     <Container>
