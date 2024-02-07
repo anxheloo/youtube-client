@@ -65,8 +65,8 @@ const Card = ({ type, video }) => {
     const getChannel = async () => {
       try {
         const result = await axios.get(
-          // `http://192.168.0.103:5001/api/users/${video.userId}`,
-          `https://youtube-server-pua8.onrender.com/api/users/${video.userId}`,
+          // `http://192.168.0.102:5001/api/users/${video.userId}`,
+          `https://youtube-server-pua8.onrender.com/api/users/${video.userId}`
 
           // {
           //   // credentials: "include",
@@ -74,11 +74,11 @@ const Card = ({ type, video }) => {
           // }
         );
 
-        console.log("These are results:", result)
+        console.log("These are results:", result);
 
         setChannel(result.data.existingUser);
 
-        console.log("this is result:", result)
+        console.log("this is result:", result);
       } catch (error) {
         console.log("This is error:", error);
       }
@@ -92,10 +92,7 @@ const Card = ({ type, video }) => {
       <Container type={type}>
         <Image type={type} src={video.videoImg}></Image>
         <Details type={type}>
-          <ChannelImage
-            type={type}
-            src="https://yt3.googleusercontent.com/ytc/AIf8zZTDkajQxPa4sjDOW-c3er1szXkSAO-H9TiF4-8u_Q=s176-c-k-c0x00ffffff-no-rj"
-          ></ChannelImage>
+          <ChannelImage type={type} src={channel?.img}></ChannelImage>
           <Texts>
             <Title>{video.title}</Title>
             <ChannelName>{channel?.name}</ChannelName>

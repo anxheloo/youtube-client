@@ -27,6 +27,7 @@ const Container = styled.div`
   font-size: 14px;
   position: sticky;
   top: 0;
+  min-height: 100vh;
 `;
 
 const Wrapper = styled.div`
@@ -99,10 +100,12 @@ const Menu = () => {
           </LogoContainer>
         </Link>
 
-        <Item>
-          <HomeIcon></HomeIcon>
-          Home
-        </Item>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <HomeIcon></HomeIcon>
+            Home
+          </Item>
+        </Link>
 
         <Link to={"/trends"} style={{ textDecoration: "none", color: "white" }}>
           <Item>

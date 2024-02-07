@@ -4,10 +4,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import { useSelector, useDispatch } from "react-redux";
-import { actions } from "../redux/userSlice";
+import { userActions } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
-import { act } from "react-dom/test-utils";
 
 const Container = styled.div`
   display: flex;
@@ -114,12 +113,12 @@ const Login = () => {
   const login = async () => {
     const data = { email: userLogin.email, password: userLogin.password };
 
-    dispatch(actions.loginStart());
+    dispatch(userActions.loginStart());
 
     try {
       const response = await axios.post(
-        // `http://192.168.0.103:5001/api/auth/login`,
-        `https://youtube-server-pua8.onrender.com/api/auth/login`,
+        `http://192.168.0.102:5001/api/auth/login`,
+        // `https://youtube-server-pua8.onrender.com/api/auth/login`,
         data,
         {
           // credentials: "include",
@@ -129,7 +128,7 @@ const Login = () => {
       console.log(`These is response:`, response);
 
       if (response.status === 200) {
-        dispatch(actions.loginSuccess(response.data.user));
+        dispatch(userActions.loginSuccess(response.data.user));
         localStorage.setItem("token", JSON.stringify(response.data.token));
         //we install it : > npm i js-cookie
         //we import Cookies: import Cookies from "js-cookie";
@@ -139,35 +138,36 @@ const Login = () => {
       }
     } catch (error) {
       console.log("This is error:", error);
-      dispatch(actions.loginFailure());
+      dispatch(userActions.loginFailure());
     }
   };
 
   const signInWithGoogle = async () => {
-    dispatch(actions.loginStart());
+    dispatch(userActions.loginStart());
     try {
       const result = await signInWithPopup(auth, provider);
 
       console.log("THIS IS result from signInWithPopup:", result);
 
       // axios.post("http://192.168.1.236:5001/api/auth/google/", data);
-      //  const response = await axios.post("http://192.168.0.103:5001/api/auth/google", data)
+      //  const response = await axios.post("http://192.168.0.102:5001/api/auth/google", data)
       const response = await axios.post(
         "https://youtube-server-pua8.onrender.com/api/auth/google",
         {
           name: result.user.displayName,
           email: result.user.email,
           img: result.user.photoURL,
+        },
+        {
+          withCredentials: true,
         }
       );
 
       console.log("this is response:", response);
-
       console.log("this is response.status:", response.status);
-      console.log("this is response[0]:", response[0]);
 
       if (response.status === 200) {
-        dispatch(actions.loginSuccess(response.data.user));
+        dispatch(userActions.loginSuccess(response.data.user));
         localStorage.setItem("token", JSON.stringify(response.data.token));
       } else {
         console.log(
@@ -179,7 +179,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Error during Google sign-in:", error);
-      dispatch(actions.loginFailure());
+      dispatch(userActions.loginFailure());
     }
   };
 

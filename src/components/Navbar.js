@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { VideoCallOutlined } from "@mui/icons-material";
+import UploadVideo from "./UploadVideo";
 
 const Container = styled.div`
   background-color: #202020;
@@ -91,31 +92,42 @@ const Avatar = styled.img`
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
+  const [open, setOpen] = useState(false);
+
+  const createVideo = () => {};
 
   return (
-    <Container>
-      <SearchInputContainer>
-        <SearchInput placeholder="Search"></SearchInput>
-        <SearchIconStyled></SearchIconStyled>
-      </SearchInputContainer>
+    <>
+      {open && <UploadVideo setOpen={setOpen}></UploadVideo>}
 
-      {currentUser ? (
-        <User>
-          <VideoCallOutlined
-            style={{ color: "white", fontSize: "35px" }}
-          ></VideoCallOutlined>
-          <Avatar></Avatar>
-          <div style={{ color: "white" }}>{currentUser.name}</div>
-        </User>
-      ) : (
-        <Link to={"/login"} style={{ textDecoration: "none" }}>
-          <SignInButton>
-            <AccountCircleIcon></AccountCircleIcon>
-            SIGN IN
-          </SignInButton>
-        </Link>
-      )}
-    </Container>
+      <Container>
+        <SearchInputContainer>
+          <SearchInput placeholder="Search"></SearchInput>
+          <SearchIconStyled></SearchIconStyled>
+        </SearchInputContainer>
+
+        {currentUser ? (
+          <User>
+            <VideoCallOutlined
+              style={{ color: "white", fontSize: "35px" }}
+              onClick={() => {
+                setOpen(true);
+                console.log("this is open:", open);
+              }}
+            ></VideoCallOutlined>
+            <Avatar></Avatar>
+            <div style={{ color: "white" }}>{currentUser.name}</div>
+          </User>
+        ) : (
+          <Link to={"/login"} style={{ textDecoration: "none" }}>
+            <SignInButton>
+              <AccountCircleIcon></AccountCircleIcon>
+              SIGN IN
+            </SignInButton>
+          </Link>
+        )}
+      </Container>
+    </>
   );
 };
 

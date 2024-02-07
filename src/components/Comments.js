@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { format, render, cancel, register } from "timeago.js";
+import { useSelector, useDispatch } from "react-redux";
+import { userActions } from "../redux/userSlice";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -32,21 +36,39 @@ const CommentText = styled.div`
   font-size: 12px;
 `;
 
-const Comments = () => {
+const Comments = ({ comment }) => {
+  const [userById, setUserById] = useState();
+
+  useEffect(() => {
+    const getUserById = async () => {
+      try {
+        const res = await axios.get(
+          `http://192.168.0.102:5001/api/users/${comment.userId}`
+        );
+
+        if (res.status === 200) {
+          setUserById(res.data.userWithoutPassword);
+          console.log("this is res.data from comments:", res.data);
+        }
+      } catch (error) {
+        console.log("This is error:", error);
+      }
+    };
+
+    getUserById();
+  }, [comment.userId]);
+
+  const { userId, description, videoId, createdAt } = comment;
+
   return (
     <Container>
-      <ChannelImage src="https://yt3.googleusercontent.com/ytc/AIf8zZTDkajQxPa4sjDOW-c3er1szXkSAO-H9TiF4-8u_Q=s176-c-k-c0x00ffffff-no-rj"></ChannelImage>
+      <ChannelImage src={userById?.img}></ChannelImage>
 
       <CommentDetails>
         <CommentName>
-          Abdullah <Date>&nbsp;&nbsp;3 days ago</Date>
+          {userById?.name} <Date>&nbsp;&nbsp;{format(createdAt)}</Date>
         </CommentName>
-        <CommentText>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </CommentText>
+        <CommentText>{description}</CommentText>
       </CommentDetails>
     </Container>
   );

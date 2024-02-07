@@ -1,13 +1,21 @@
-import React from "react";
+/* eslint-disable quotes */
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import Comment from "../components/Comment";
 import Comments from "../components/Comments";
 import Card from "../components/Card";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { actions } from "../redux/videoSlice";
+import { userActions } from "../redux/userSlice";
+import axios from "axios";
+import { useLocation } from "react-router";
+import { format, render, cancel, register } from "timeago.js";
 
 const Container = styled.div`
   display: flex;
@@ -116,10 +124,160 @@ const SubscribeBtn = styled.div`
 `;
 
 const Video = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
+  const currentVideo = useSelector((state) => state.video.currentVideo);
 
+  const [channel, setChannel] = useState();
+  const [comments, setComments] = useState([]);
+  // const [videoById, setVideoById] = useState();
+
+  const path = useLocation().pathname.split("/")[2];
+  console.log(
+    "This is path from useLocation().pathanme:",
+    useLocation().pathname
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(
+          // `https://youtube-server-pua8.onrender.com/api/videos/${path}`
+          `http://192.168.0.102:5001/api/videos/${path}`
+        );
+
+        console.log("THis is videoRes:", videoRes);
+
+        const channelRes = await axios.get(
+          // `https://youtube-server-pua8.onrender.com/api/users/${videoRes.data.video._id}`
+          `http://192.168.0.102:5001/api/users/${videoRes.data.video.userId}`
+        );
+
+        const commentsRes = await axios.get(
+          `http://192.168.0.102:5001/api/comments/${path}`
+        );
+
+        setComments(commentsRes.data.comments);
+
+        await dispatch(actions.videoSuccess(videoRes.data.video));
+        setChannel(channelRes.data.userWithoutPassword);
+
+        console.log("This is videoRes:", videoRes.data);
+        console.log("This is channelRes:", channelRes.data);
+
+        console.log("This is current Video:", currentVideo);
+      } catch (error) {
+        console.log("This is error from useEffect:", error);
+        dispatch(actions.failToGet());
+      }
+    };
+
+    fetchData();
+  }, [path, currentUser, dispatch]);
+
+  const handleLike = async () => {
+    if (currentUser) {
+      try {
+        const token = await localStorage.getItem("token");
+        const tokenParsed = await JSON.parse(token);
+
+        const res = await axios.put(
+          `http://192.168.0.102:5001/api/users/like/${currentVideo?._id}`,
+          { token: tokenParsed },
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (res.status === 200) {
+          dispatch(actions.videoSuccess(res.data.video));
+        }
+      } catch (error) {
+        console.log("This is Error from handleLike:", error);
+      }
+    } else {
+      alert("Please log in!");
+    }
+  };
+
+  const handleDislike = async () => {
+    if (currentUser) {
+      try {
+        const token = await localStorage.getItem("token");
+        const tokenParsed = await JSON.parse(token);
+
+        const res = await axios.put(
+          `http://192.168.0.102:5001/api/users/dislike/${currentVideo?._id}`,
+          { token: tokenParsed },
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (res.status === 200) {
+          dispatch(actions.videoSuccess(res.data.video));
+        }
+      } catch (error) {
+        console.log("This is Error from handleDislike:", error);
+      }
+    } else {
+      alert("Please log in!");
+    }
+  };
+
+  const handleSubscribe = async () => {
+    if (currentUser) {
+      try {
+        const token = await localStorage.getItem("token");
+        const tokenParsed = await JSON.parse(token);
+
+        const res = await axios.put(
+          `http://192.168.0.102:5001/api/users/subscribe/${channel?._id}`,
+          { token: tokenParsed },
+          {
+            withCredentials: true,
+          }
+        );
+
+        console.log("This is res.data:", res.data);
+
+        if (res.status === 200) {
+          dispatch(userActions.currentUserUpdate(res.data.user));
+        }
+      } catch (error) {
+        console.log("This is error from handleSubscribe:", error);
+      }
+    } else {
+      alert("Please Log in!");
+    }
+  };
+
+  const handleUnSubscribe = async () => {
+    if (currentUser) {
+      try {
+        const token = await localStorage.getItem("token");
+        const tokenParsed = await JSON.parse(token);
+
+        const res = await axios.put(
+          `http://192.168.0.102:5001/api/users/unsubscribe/${channel?._id}`,
+          { token: tokenParsed },
+          {
+            withCredentials: true,
+          }
+        );
+
+        console.log("This is res.data:", res.data);
+
+        if (res.status === 200) {
+          dispatch(userActions.currentUserUpdate(res.data.user));
+        }
+      } catch (error) {
+        console.log("This is error from handleSubscribe:", error);
+      }
+    } else {
+      alert("Please Log in!");
+    }
+  };
 
   return (
     <Container>
@@ -129,7 +287,9 @@ const Video = () => {
             width={"100%"}
             // maxWidth="100%"
             height="720"
-            src="https://www.youtube.com/embed/k3Vfj-e1Ma4"
+            src="https://www.youtube.com/watch?v=CCF-xV3RSSs&t=8612s"
+            // src={currentVideo?.videoUrl}
+            // src="https://www.youtube.com/embed/CCF-xV3RSSs&t=8612s"
             title="YOutube video player"
             frameBorder={0}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -137,23 +297,41 @@ const Video = () => {
           ></iframe>
         </VideoWrapper>
 
-        <Title>Video Title</Title>
+        <Title>{currentVideo?.title}</Title>
 
         <Details>
-          <Info>776,886 views May 8, 2022</Info>
+          <Info>
+            {currentVideo?.views} views {format(currentVideo?.createdAt)}
+          </Info>
 
           <Buttons>
-            <Button>
-              <ThumbUpOffAltIcon style={{ color: "white" }}></ThumbUpOffAltIcon>{" "}
-              123
-            </Button>
+            {currentVideo?.likes?.includes(currentUser?._id) ? (
+              <Button>
+                <ThumbUpAltIcon style={{ color: "white" }}></ThumbUpAltIcon>
+                {currentVideo?.likes?.length}
+              </Button>
+            ) : (
+              <Button onClick={handleLike}>
+                <ThumbUpOffAltIcon
+                  style={{ color: "white" }}
+                ></ThumbUpOffAltIcon>
+                {currentVideo?.likes?.length}
+              </Button>
+            )}
 
-            <Button>
-              <ThumbDownOffAltIcon
-                style={{ color: "white" }}
-              ></ThumbDownOffAltIcon>{" "}
-              5
-            </Button>
+            {currentVideo?.dislikes?.includes(currentUser?._id) ? (
+              <Button>
+                <ThumbDownAltIcon style={{ color: "white" }}></ThumbDownAltIcon>{" "}
+                {currentVideo?.dislikes.length}
+              </Button>
+            ) : (
+              <Button onClick={handleDislike}>
+                <ThumbDownOffAltIcon
+                  style={{ color: "white" }}
+                ></ThumbDownOffAltIcon>{" "}
+                {currentVideo?.dislikes.length}
+              </Button>
+            )}
 
             <Button>
               <IosShareIcon style={{ color: "white" }}></IosShareIcon>
@@ -169,22 +347,35 @@ const Video = () => {
 
         <Channel>
           <ChannelInfo>
-            <ChannelImage src="https://yt3.googleusercontent.com/ytc/AIf8zZTDkajQxPa4sjDOW-c3er1szXkSAO-H9TiF4-8u_Q=s176-c-k-c0x00ffffff-no-rj"></ChannelImage>
+            <ChannelImage src={channel?.img}></ChannelImage>
             <ChannelDetails>
-              <ChannelName>Abdullah</ChannelName>
-              <ChannelCounter>268K subscribers</ChannelCounter>
+              <ChannelName>{channel?.name}</ChannelName>
+              <ChannelCounter>
+                {channel?.subscribers} subscribers
+              </ChannelCounter>
               <ChannelDescription>
-                Lorem 10 ipsum asdfa adjkhdksj jahfkjlahk kjadkjf kjhdah
-                kjahskjf hakjfajkh kja
+                {currentVideo?.description}
               </ChannelDescription>
             </ChannelDetails>
           </ChannelInfo>
 
-          <SubscribeBtn>Subscribe</SubscribeBtn>
+          {currentUser?.subscribedUsers?.includes(channel?._id) ? (
+            <SubscribeBtn onClick={handleUnSubscribe}>Unsubscribe</SubscribeBtn>
+          ) : (
+            <SubscribeBtn onClick={handleSubscribe}>Subscribe</SubscribeBtn>
+          )}
         </Channel>
 
-        <Comment></Comment>
+        <Comment
+          videoId={currentVideo?._id}
+          setComments={setComments}
+        ></Comment>
 
+        {comments &&
+          comments.map((comment) => {
+            return <Comments key={comment._id} comment={comment}></Comments>;
+          })}
+        {/* <Comments></Comments>
         <Comments></Comments>
         <Comments></Comments>
         <Comments></Comments>
@@ -192,10 +383,9 @@ const Video = () => {
         <Comments></Comments>
         <Comments></Comments>
         <Comments></Comments>
-        <Comments></Comments>
-        <Comments></Comments>
+        <Comments></Comments> */}
       </Content>
-      <Recommendation>
+      {/* <Recommendation>
         <Card type="sm"></Card>
         <Card type="sm"></Card>
         <Card type="sm"></Card>
@@ -205,7 +395,7 @@ const Video = () => {
         <Card type="sm"></Card>
         <Card type="sm"></Card>
         <Card type="sm"></Card>
-      </Recommendation>
+      </Recommendation> */}
     </Container>
   );
 };

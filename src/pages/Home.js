@@ -16,22 +16,24 @@ const Home = ({ type }) => {
 
   useEffect(() => {
     const getVideos = async () => {
-
-     const token =  await localStorage.getItem("token")
-
-    const tokenParsed =  await JSON.parse(token)
+      const token = await localStorage.getItem("token");
+      const tokenParsed = await JSON.parse(token);
 
       try {
         const result = await axios.post(
-          // `http://192.168.0.103:5001/api/videos/${type}`,
-          // {token : tokenParsed}
-          // ,
-          `https://youtube-server-pua8.onrender.com/api/videos/${type}`,
-           {token : tokenParsed},
+          `http://192.168.0.102:5001/api/videos/${type}`,
+          { token: tokenParsed },
           {
             // credentials: "include",
             withCredentials: true,
           }
+          // ,
+          // `https://youtube-server-pua8.onrender.com/api/videos/${type}`,
+          //  {token : tokenParsed},
+          // {
+          //   // credentials: "include",
+          //   withCredentials: true,
+          // }
         );
         console.log(`These are results from ${type}:`, result);
 
@@ -40,6 +42,10 @@ const Home = ({ type }) => {
           console.log(`these are ${type} videos:`, result);
         }
       } catch (error) {
+        if (error.response.status === 401) {
+          setVideos([]);
+          alert("Please Log In!");
+        }
         console.log("This is error:", error);
       }
     };

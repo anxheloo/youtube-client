@@ -33,10 +33,14 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+
+    currentUserUpdate: (state, action) => {
+      state.currentUser = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const actions = userSlice.actions;
+export const userActions = userSlice.actions;
 
 export default userSlice;
