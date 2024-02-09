@@ -283,18 +283,22 @@ const Video = () => {
     <Container>
       <Content>
         <VideoWrapper>
-          <iframe
-            width={"100%"}
-            // maxWidth="100%"
-            height="720"
-            src="https://www.youtube.com/watch?v=CCF-xV3RSSs&t=8612s"
-            // src={currentVideo?.videoUrl}
-            // src="https://www.youtube.com/embed/CCF-xV3RSSs&t=8612s"
-            title="YOutube video player"
-            frameBorder={0}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          <video
+            style={{ width: "100%", height: "720px" }}
+            controls
+            //   autoPlay
+            muted
+            //   poster="https://plus.unsplash.com/premium_photo-1673624400092-0e8fd6910570?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            // onMouseEnter={handleVideoHover}
+            // onMouseLeave={handleVideoHoverOut}
+          >
+            <source
+              // src={`http://192.168.1.213:9001/${video.filename}`}
+              src={`http://192.168.0.102:5001/public/videos/${currentVideo.filename}`}
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
         </VideoWrapper>
 
         <Title>{currentVideo?.title}</Title>

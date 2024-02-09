@@ -25,7 +25,7 @@ const Home = ({ type }) => {
           { token: tokenParsed },
           {
             // credentials: "include",
-            withCredentials: true,
+            // withCredentials: true,
           }
           // ,
           // `https://youtube-server-pua8.onrender.com/api/videos/${type}`,

@@ -60,13 +60,14 @@ const Info = styled.div`
 
 const Card = ({ type, video }) => {
   const [channel, setChannel] = useState();
+  // console.log(video);
 
   useEffect(() => {
     const getChannel = async () => {
       try {
         const result = await axios.get(
-          // `http://192.168.0.102:5001/api/users/${video.userId}`,
-          `https://youtube-server-pua8.onrender.com/api/users/${video.userId}`
+          `http://192.168.0.102:5001/api/users/${video.userId}`
+          // `https://youtube-server-pua8.onrender.com/api/users/${video.userId}`
 
           // {
           //   // credentials: "include",
@@ -84,13 +85,42 @@ const Card = ({ type, video }) => {
       }
     };
 
-    getChannel();
+    // getChannel();
   }, [video.userId]);
+
+  const handleVideoHover = (event) => {
+    const video = event.target;
+    if (video.paused) {
+      video.play();
+    }
+  };
+
+  const handleVideoHoverOut = (event) => {
+    const video = event.target;
+    video.pause();
+    // video.currentTime = 0; // Reset video to beginning
+  };
 
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
-        <Image type={type} src={video.videoImg}></Image>
+        {/* <Image type={type} src={video.videoImg}></Image> */}
+        <video
+          style={{ flex: 1, height: "200px" }}
+          controls
+          //   autoPlay
+          muted
+          //   poster="https://plus.unsplash.com/premium_photo-1673624400092-0e8fd6910570?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          onMouseEnter={handleVideoHover}
+          onMouseLeave={handleVideoHoverOut}
+        >
+          <source
+            // src={`http://192.168.1.213:9001/${video.filename}`}
+            src={`http://192.168.0.102:5001/public/videos/${video.filename}`}
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
         <Details type={type}>
           <ChannelImage type={type} src={channel?.img}></ChannelImage>
           <Texts>
