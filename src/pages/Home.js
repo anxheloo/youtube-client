@@ -21,7 +21,7 @@ const Home = ({ type }) => {
 
       try {
         const result = await axios.post(
-          `http://192.168.0.102:5001/api/videos/${type}`,
+          `http://192.168.0.100:5001/api/videos/${type}`,
           { token: tokenParsed },
           {
             // credentials: "include",

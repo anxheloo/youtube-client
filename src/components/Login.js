@@ -117,7 +117,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `http://192.168.0.102:5001/api/auth/login`,
+        `http://192.168.0.100:5001/api/auth/login`,
         // `https://youtube-server-pua8.onrender.com/api/auth/login`,
         data,
         {
@@ -150,7 +150,7 @@ const Login = () => {
       console.log("THIS IS result from signInWithPopup:", result);
 
       // axios.post("http://192.168.1.236:5001/api/auth/google/", data);
-      //  const response = await axios.post("http://192.168.0.102:5001/api/auth/google", data)
+      //  const response = await axios.post("http://192.168.0.100:5001/api/auth/google", data)
       const response = await axios.post(
         "https://youtube-server-pua8.onrender.com/api/auth/google",
         {

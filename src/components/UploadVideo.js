@@ -66,24 +66,45 @@ const UploadVideo = ({ setOpen }) => {
   //   console.log(video);
   // };
 
-  const uploadVideo = async () => {
-    try {
-      const token = await localStorage.getItem("token");
-      const tokenParsed = await JSON.parse(token);
+  const uploadVideo = async (event) => {
+    event.preventDefault();
 
-      const body = {
-        token: tokenParsed,
-        title,
-        description,
-        video,
-        image,
-      };
+    console.log(event);
+
+    try {
+      const tokenNotParsed = await localStorage.getItem("token");
+      const token = await JSON.parse(tokenNotParsed);
+
+      const formData = new FormData();
+      formData.append("token", token);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("video", video);
+      formData.append("image", image);
+      formData.append("videoTags", videoTags.join(","));
 
       const response = await axios.post(
-        "http://192.168.0.102:5001/api/videos/upload",
-        body
+        "http://192.168.0.100:5001/api/videos/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            // Authorization: `Bearer ${tokenParsed}`,
+          },
+        }
       );
-      console.log(response.data);
+
+      console.log(response);
+
+      if (response.status === 200) {
+        console.log("response ok");
+        alert("Uploaded Successful!");
+        setOpen(false);
+        // window.location.href = "/";
+        // history.push("/");
+        // Reload the page after successful upload
+        window.location.reload();
+      }
     } catch (error) {
       console.log("Error:", error);
     }
@@ -133,130 +154,143 @@ const UploadVideo = ({ setOpen }) => {
           </h1>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <label style={{ color: "white" }}>Video:</label>
-          <input
-            encType="multipart/form-data"
-            name="video"
-            required
-            type="file"
-            accept="video/*"
-            style={{
-              color: "white",
-              backgroundColor: "#202020",
-              borderStyle: "solid",
-              borderWidth: "1px",
-              borderColor: "#000000a7",
-              outline: "none",
-              padding: "10px",
-            }}
-            onChange={(event) => setVideo(event.target.files[0])}
-          ></input>
-        </div>
+        <form onSubmit={uploadVideo}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <label style={{ color: "white" }}>Video:</label>
+            <input
+              encType="multipart/form-data"
+              name="video"
+              required
+              type="file"
+              accept="video/*"
+              style={{
+                color: "white",
+                backgroundColor: "#202020",
+                borderStyle: "solid",
+                borderWidth: "1px",
+                borderColor: "#000000a7",
+                outline: "none",
+                padding: "10px",
+              }}
+              onChange={(event) => setVideo(event.target.files[0])}
+              // onChange={(e) => console.log(e)}
+            ></input>
+          </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <input
-            required
-            type="text"
-            placeholder="Title"
-            style={{
-              backgroundColor: "#202020",
-              borderStyle: "solid",
-              borderWidth: "1px",
-              borderColor: "#000000a7",
-              outline: "none",
-              color: "white",
-              padding: "10px",
-            }}
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-          ></input>
-          <textarea
-            required
-            placeholder="Description"
-            rows={8}
-            style={{
-              backgroundColor: "#202020",
-              borderStyle: "solid",
-              borderWidth: "1px",
-              borderColor: "#000000a7",
-              outline: "none",
-              color: "white",
-              padding: "10px",
-            }}
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          ></textarea>
-          <input
-            required
-            type="text"
-            placeholder="Separate tags with commas"
-            style={{
-              backgroundColor: "#202020",
-              borderStyle: "solid",
-              borderWidth: "1px",
-              borderColor: "#000000a7",
-              outline: "none",
-              color: "white",
-              padding: "10px",
-            }}
-            value={videoTags}
-            onChange={(event) => setVideoTags(event.target.value.split(","))}
-          ></input>
-        </div>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <input
+              required
+              type="text"
+              placeholder="Title"
+              name="title"
+              style={{
+                backgroundColor: "#202020",
+                borderStyle: "solid",
+                borderWidth: "1px",
+                borderColor: "#000000a7",
+                outline: "none",
+                color: "white",
+                padding: "10px",
+              }}
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+            ></input>
+            <textarea
+              required
+              name="description"
+              placeholder="Description"
+              rows={8}
+              style={{
+                backgroundColor: "#202020",
+                borderStyle: "solid",
+                borderWidth: "1px",
+                borderColor: "#000000a7",
+                outline: "none",
+                color: "white",
+                padding: "10px",
+              }}
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+            ></textarea>
+            <input
+              required
+              name="videoTags"
+              type="text"
+              placeholder="Separate tags with commas"
+              style={{
+                backgroundColor: "#202020",
+                borderStyle: "solid",
+                borderWidth: "1px",
+                borderColor: "#000000a7",
+                outline: "none",
+                color: "white",
+                padding: "10px",
+              }}
+              value={videoTags}
+              onChange={(event) => setVideoTags(event.target.value.split(","))}
+            ></input>
+          </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <label style={{ color: "white" }}>Image:</label>
-          <input
-            encType="multipart/form-data"
-            name="image"
-            required
-            type="file"
-            accept="image/*"
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <label style={{ color: "white" }}>Image:</label>
+            <input
+              encType="multipart/form-data"
+              name="image"
+              required
+              type="file"
+              accept="image/*"
+              style={{
+                color: "white",
+                backgroundColor: "#202020",
+                borderStyle: "solid",
+                borderWidth: "1px",
+                borderColor: "#000000a7",
+                outline: "none",
+                padding: "10px",
+              }}
+              onChange={(event) => setImage(event.target.files[0])}
+              // onChange={(event) => convertToBase64(event)}
+              // onChange={(event) => {
+              //   convertToBase64("image", event);
+              // }}
+              // onChange={(event) => handleFileChange(event)}
+            ></input>
+          </div>
+
+          <button
             style={{
-              color: "white",
               backgroundColor: "#202020",
               borderStyle: "solid",
               borderWidth: "1px",
               borderColor: "#000000a7",
               outline: "none",
+              color: "white",
               padding: "10px",
+              fontWeight: "bold",
             }}
-            onChange={(event) => setImage(event.target.files[0])}
-            // onChange={(event) => convertToBase64(event)}
-            // onChange={(event) => {
-            //   convertToBase64("image", event);
+            type="submit"
+            // onClick={() => {
+            //   uploadVideo();
+            //   // const body = {
+            //   //   img: img,
+            //   //   video: video,
+            //   //   videoTitle: videoTitle,
+            //   //   videoDescription: videoDescription,
+            //   //   videoTags: videoTags,
+            //   // };
+
+            //   // console.log("this is body:", body);
             // }}
-            // onChange={(event) => handleFileChange(event)}
-          ></input>
-        </div>
-
-        <button
-          style={{
-            backgroundColor: "#202020",
-            borderStyle: "solid",
-            borderWidth: "1px",
-            borderColor: "#000000a7",
-            outline: "none",
-            color: "white",
-            padding: "10px",
-            fontWeight: "bold",
-          }}
-          onClick={() => {
-            uploadVideo();
-            // const body = {
-            //   img: img,
-            //   video: video,
-            //   videoTitle: videoTitle,
-            //   videoDescription: videoDescription,
-            //   videoTags: videoTags,
-            // };
-
-            // console.log("this is body:", body);
-          }}
-        >
-          Upload
-        </button>
+          >
+            Upload
+          </button>
+        </form>
       </Wrapper>
 
       <div style={{ position: "absolute", top: "200px", left: 0 }}>

@@ -45,7 +45,7 @@ const Comment = ({ videoId, setComments }) => {
         const tokenParsed = JSON.parse(token);
 
         const res = await axios.post(
-          "http://192.168.0.102:5001/api/comments", // Adjust the endpoint
+          "http://192.168.0.100:5001/api/comments", // Adjust the endpoint
           {
             token: tokenParsed,
             videoId, // Replace with the actual videoId
@@ -58,7 +58,7 @@ const Comment = ({ videoId, setComments }) => {
         );
 
         const commentsRes = await axios.get(
-          `http://192.168.0.102:5001/api/comments/${videoId}`
+          `http://192.168.0.100:5001/api/comments/${videoId}`
         );
 
         setComments(commentsRes.data.comments);

@@ -143,18 +143,18 @@ const Video = () => {
       try {
         const videoRes = await axios.get(
           // `https://youtube-server-pua8.onrender.com/api/videos/${path}`
-          `http://192.168.0.102:5001/api/videos/${path}`
+          `http://192.168.0.100:5001/api/videos/${path}`
         );
 
         console.log("THis is videoRes:", videoRes);
 
         const channelRes = await axios.get(
           // `https://youtube-server-pua8.onrender.com/api/users/${videoRes.data.video._id}`
-          `http://192.168.0.102:5001/api/users/${videoRes.data.video.userId}`
+          `http://192.168.0.100:5001/api/users/${videoRes.data.video.userId}`
         );
 
         const commentsRes = await axios.get(
-          `http://192.168.0.102:5001/api/comments/${path}`
+          `http://192.168.0.100:5001/api/comments/${path}`
         );
 
         setComments(commentsRes.data.comments);
@@ -182,7 +182,7 @@ const Video = () => {
         const tokenParsed = await JSON.parse(token);
 
         const res = await axios.put(
-          `http://192.168.0.102:5001/api/users/like/${currentVideo?._id}`,
+          `http://192.168.0.100:5001/api/users/like/${currentVideo?._id}`,
           { token: tokenParsed },
           {
             withCredentials: true,
@@ -207,7 +207,7 @@ const Video = () => {
         const tokenParsed = await JSON.parse(token);
 
         const res = await axios.put(
-          `http://192.168.0.102:5001/api/users/dislike/${currentVideo?._id}`,
+          `http://192.168.0.100:5001/api/users/dislike/${currentVideo?._id}`,
           { token: tokenParsed },
           {
             withCredentials: true,
@@ -232,7 +232,7 @@ const Video = () => {
         const tokenParsed = await JSON.parse(token);
 
         const res = await axios.put(
-          `http://192.168.0.102:5001/api/users/subscribe/${channel?._id}`,
+          `http://192.168.0.100:5001/api/users/subscribe/${channel?._id}`,
           { token: tokenParsed },
           {
             withCredentials: true,
@@ -259,7 +259,7 @@ const Video = () => {
         const tokenParsed = await JSON.parse(token);
 
         const res = await axios.put(
-          `http://192.168.0.102:5001/api/users/unsubscribe/${channel?._id}`,
+          `http://0:5001/api/users/unsubscribe/${channel?._id}`,
           { token: tokenParsed },
           {
             withCredentials: true,
@@ -294,7 +294,7 @@ const Video = () => {
           >
             <source
               // src={`http://192.168.1.213:9001/${video.filename}`}
-              src={`http://192.168.0.102:5001/public/videos/${currentVideo.filename}`}
+              src={`http://192.168.0.100:5001/public/videos/${currentVideo?.filename}`}
               type="video/mp4"
             />
             Your browser does not support the video tag.

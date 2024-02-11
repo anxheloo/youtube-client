@@ -43,7 +43,7 @@ const Comments = ({ comment }) => {
     const getUserById = async () => {
       try {
         const res = await axios.get(
-          `http://192.168.0.102:5001/api/users/${comment.userId}`
+          `http://192.168.0.100:5001/api/users/${comment.userId}`
         );
 
         if (res.status === 200) {
