@@ -265,18 +265,20 @@ const Login = () => {
 
     <div
       id="container"
-      className="flex flex-col justify-center items-center text-white h-full pt-[30px]"
+      className="flex flex-col justify-center items-center text-white h-full pt-[30px] px-[20px]"
     >
-      <div className="flex flex-col  items-center bg-[#202020] py-[20px] px-[30px] border border-black gap-[10px] w-[20%] min-w-[300px]">
+      <div className="flex flex-col  items-center bg-[#202020] py-[20px] px-[30px] border border-black gap-[10px] w-full max-w-[400px]">
         <div>Sign in</div>
         <div>to continue to video app</div>
         <input
+          type="email"
           className="py-[10px] px-[15px] bg-transparent outline-none border border-black w-[80%] text-white"
           placeholder="email"
           value={userLogin.email}
           onChange={handleInputEmail}
         ></input>
         <input
+          type="password"
           className="py-[10px] px-[15px] bg-transparent outline-none border border-black w-[80%] text-white"
           placeholder="password"
           value={userLogin.password}

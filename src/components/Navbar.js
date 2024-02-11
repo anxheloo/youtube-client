@@ -122,11 +122,11 @@ const Navbar = () => {
 
       <div
         id="container"
-        className="bg-[#202020] h-[70px] flex items-center sticky top-0 px-[20px] justify-end z-10"
+        className="bg-[#202020] h-[70px] flex items-center sticky top-0 px-[10px] lg:px-[20px] justify-between gap-[20px] lg:justify-end z-10"
       >
         <div
           id="search-input-container"
-          className="flex items-center px-[20px] max-w-[500px] flex-1 border border-gray-400 rounded-[20px] overflow-hidden absolute right-0 left-0 m-auto"
+          className="flex items-center px-[10px] lg:px-[20px] w-full max-w-[500px] flex-1 border border-gray-400 rounded-[20px] overflow-hidden lg:absolute lg:right-0 lg:left-0 m-auto"
         >
           <input
             placeholder="Search"
@@ -150,7 +150,7 @@ const Navbar = () => {
           </div>
         ) : (
           <Link to={"/login"} style={{ textDecoration: "none" }}>
-            <button className="bg-transparent border border-[#3ea6ff] rounded-[5px] text-[#3ea6ff] font-medium py-[5px] px-[15px] mt-[10px] flex items-center gap-[5px] cursor-pointer uppercase">
+            <button className="bg-transparent border border-[#3ea6ff] rounded-[5px] h-[40px] text-[#3ea6ff] font-medium py-[5px] px-[10px] lg:px-[15px] flex items-center gap-[5px] cursor-pointer uppercase">
               <AccountCircleIcon></AccountCircleIcon>
               SIGN IN
             </button>

@@ -111,8 +111,14 @@ const UploadVideo = ({ setOpen }) => {
   };
 
   return (
-    <Container>
-      <Wrapper>
+    <div
+      id="container"
+      className="bg-[#000000a7] w-full h-full absolute top-0 left-0 z-100 flex items-center justify-center p-[30px]"
+    >
+      <div
+        id="wrapper"
+        className="bg-[#202020] border-none rounded-[5px] flex-1 max-w-[500px] max-h-[700px] fixed top-[90px] flex flex-col justify-around p-[20px] gap-[25px]"
+      >
         <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
           <div
             style={{
@@ -291,14 +297,8 @@ const UploadVideo = ({ setOpen }) => {
             Upload
           </button>
         </form>
-      </Wrapper>
-
-      <div style={{ position: "absolute", top: "200px", left: 0 }}>
-        <video width="320" height="240" controls autoPlay>
-          <source src={video} type="video/mp4"></source>
-        </video>
       </div>
-    </Container>
+    </div>
   );
 };
 

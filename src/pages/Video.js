@@ -280,9 +280,134 @@ const Video = () => {
   };
 
   return (
-    <Container>
-      <Content>
-        <VideoWrapper>
+    // <Container>
+    //   <Content>
+    //     <VideoWrapper>
+    //       <video
+    //         style={{ width: "100%", height: "720px" }}
+    //         controls
+    //         //   autoPlay
+    //         muted
+    //         //   poster="https://plus.unsplash.com/premium_photo-1673624400092-0e8fd6910570?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    //         // onMouseEnter={handleVideoHover}
+    //         // onMouseLeave={handleVideoHoverOut}
+    //       >
+    //         <source
+    //           // src={`http://192.168.1.213:9001/${video.filename}`}
+    //           src={`http://192.168.0.101:5001/public/videos/${currentVideo?.filename}`}
+    //           type="video/mp4"
+    //         />
+    //         Your browser does not support the video tag.
+    //       </video>
+    //     </VideoWrapper>
+
+    //     <Title>{currentVideo?.title}</Title>
+
+    //     <Details>
+    //       <Info>
+    //         {currentVideo?.views} views {format(currentVideo?.createdAt)}
+    //       </Info>
+
+    //       <Buttons>
+    //         {currentVideo?.likes?.includes(currentUser?._id) ? (
+    //           <Button>
+    //             <ThumbUpAltIcon style={{ color: "white" }}></ThumbUpAltIcon>
+    //             {currentVideo?.likes?.length}
+    //           </Button>
+    //         ) : (
+    //           <Button onClick={handleLike}>
+    //             <ThumbUpOffAltIcon
+    //               style={{ color: "white" }}
+    //             ></ThumbUpOffAltIcon>
+    //             {currentVideo?.likes?.length}
+    //           </Button>
+    //         )}
+
+    //         {currentVideo?.dislikes?.includes(currentUser?._id) ? (
+    //           <Button>
+    //             <ThumbDownAltIcon style={{ color: "white" }}></ThumbDownAltIcon>{" "}
+    //             {currentVideo?.dislikes.length}
+    //           </Button>
+    //         ) : (
+    //           <Button onClick={handleDislike}>
+    //             <ThumbDownOffAltIcon
+    //               style={{ color: "white" }}
+    //             ></ThumbDownOffAltIcon>{" "}
+    //             {currentVideo?.dislikes.length}
+    //           </Button>
+    //         )}
+
+    //         <Button>
+    //           <IosShareIcon style={{ color: "white" }}></IosShareIcon>
+    //         </Button>
+
+    //         <Button>
+    //           <LibraryAddIcon style={{ color: "white" }}></LibraryAddIcon>
+    //         </Button>
+    //       </Buttons>
+    //     </Details>
+
+    //     <Hr></Hr>
+
+    //     <Channel>
+    //       <ChannelInfo>
+    //         <ChannelImage src={channel?.img}></ChannelImage>
+    //         <ChannelDetails>
+    //           <ChannelName>{channel?.name}</ChannelName>
+    //           <ChannelCounter>
+    //             {channel?.subscribers} subscribers
+    //           </ChannelCounter>
+    //           <ChannelDescription>
+    //             {currentVideo?.description}
+    //           </ChannelDescription>
+    //         </ChannelDetails>
+    //       </ChannelInfo>
+
+    //       {currentUser?.subscribedUsers?.includes(channel?._id) ? (
+    //         <SubscribeBtn onClick={handleUnSubscribe}>Unsubscribe</SubscribeBtn>
+    //       ) : (
+    //         <SubscribeBtn onClick={handleSubscribe}>Subscribe</SubscribeBtn>
+    //       )}
+    //     </Channel>
+
+    //     <Comment
+    //       videoId={currentVideo?._id}
+    //       setComments={setComments}
+    //     ></Comment>
+
+    //     {comments &&
+    //       comments.map((comment) => {
+    //         return <Comments key={comment._id} comment={comment}></Comments>;
+    //       })}
+    //     {/* <Comments></Comments>
+    //     <Comments></Comments>
+    //     <Comments></Comments>
+    //     <Comments></Comments>
+    //     <Comments></Comments>
+    //     <Comments></Comments>
+    //     <Comments></Comments>
+    //     <Comments></Comments>
+    //     <Comments></Comments> */}
+    //   </Content>
+    //   {/* <Recommendation>
+    //     <Card type="sm"></Card>
+    //     <Card type="sm"></Card>
+    //     <Card type="sm"></Card>
+    //     <Card type="sm"></Card>
+    //     <Card type="sm"></Card>
+    //     <Card type="sm"></Card>
+    //     <Card type="sm"></Card>
+    //     <Card type="sm"></Card>
+    //     <Card type="sm"></Card>
+    //   </Recommendation> */}
+    // </Container>
+
+    <div
+      id="container"
+      className="flex py-[22px] px-[96px] gap-[20px] text-white"
+    >
+      <div id="content" className="flex-1">
+        <div>
           <video
             style={{ width: "100%", height: "720px" }}
             controls
@@ -299,76 +424,99 @@ const Video = () => {
             />
             Your browser does not support the video tag.
           </video>
-        </VideoWrapper>
+        </div>
 
-        <Title>{currentVideo?.title}</Title>
+        <h1 className="text-[18px] font-normal mt-[20px] mb-[10px]">
+          {currentVideo?.title}
+        </h1>
 
-        <Details>
-          <Info>
+        <div className="flex items-center justify-between">
+          <span className="text-[14px] font-normal my-[30px]">
             {currentVideo?.views} views {format(currentVideo?.createdAt)}
-          </Info>
+          </span>
 
-          <Buttons>
+          <div className="flex gap-[20px] text-white">
             {currentVideo?.likes?.includes(currentUser?._id) ? (
-              <Button>
+              <button className="bg-transparent border-none flex items-center text-white gap-[10px] cursor-pointer">
                 <ThumbUpAltIcon style={{ color: "white" }}></ThumbUpAltIcon>
                 {currentVideo?.likes?.length}
-              </Button>
+              </button>
             ) : (
-              <Button onClick={handleLike}>
+              <button
+                className="bg-transparent border-none flex items-center text-white gap-[10px] cursor-pointer"
+                onClick={handleLike}
+              >
                 <ThumbUpOffAltIcon
                   style={{ color: "white" }}
                 ></ThumbUpOffAltIcon>
                 {currentVideo?.likes?.length}
-              </Button>
+              </button>
             )}
 
             {currentVideo?.dislikes?.includes(currentUser?._id) ? (
-              <Button>
+              <button className="bg-transparent border-none flex items-center text-white gap-[10px] cursor-pointer">
                 <ThumbDownAltIcon style={{ color: "white" }}></ThumbDownAltIcon>{" "}
                 {currentVideo?.dislikes.length}
-              </Button>
+              </button>
             ) : (
-              <Button onClick={handleDislike}>
+              <button
+                className="bg-transparent border-none flex items-center text-white gap-[10px] cursor-pointer"
+                onClick={handleDislike}
+              >
                 <ThumbDownOffAltIcon
                   style={{ color: "white" }}
                 ></ThumbDownOffAltIcon>{" "}
                 {currentVideo?.dislikes.length}
-              </Button>
+              </button>
             )}
 
-            <Button>
+            <button className="bg-transparent border-none flex items-center text-white gap-[10px] cursor-pointer">
               <IosShareIcon style={{ color: "white" }}></IosShareIcon>
-            </Button>
+            </button>
 
-            <Button>
+            <button className="bg-transparent border-none flex items-center text-white gap-[10px] cursor-pointer">
               <LibraryAddIcon style={{ color: "white" }}></LibraryAddIcon>
-            </Button>
-          </Buttons>
-        </Details>
+            </button>
+          </div>
+        </div>
 
-        <Hr></Hr>
+        <hr className="border-[0.5px] border-[#202020]"></hr>
 
-        <Channel>
-          <ChannelInfo>
-            <ChannelImage src={channel?.img}></ChannelImage>
-            <ChannelDetails>
-              <ChannelName>{channel?.name}</ChannelName>
-              <ChannelCounter>
+        <div id="channel" className="flex justify-between my-[20px]">
+          <div className="flex gap-[30px]">
+            <img
+              className="w-[36px] h-[36px] rounded-[50%] cursor-pointer"
+              src={channel?.img}
+              alt="channel"
+            ></img>
+
+            <div>
+              <div className="text-[18px]">{channel?.name}</div>
+              <div className="mt-[3px] text-[12px]">
                 {channel?.subscribers} subscribers
-              </ChannelCounter>
-              <ChannelDescription>
+              </div>
+              <div className="mt-[20px] text-14px">
                 {currentVideo?.description}
-              </ChannelDescription>
-            </ChannelDetails>
-          </ChannelInfo>
+              </div>
+            </div>
+          </div>
 
           {currentUser?.subscribedUsers?.includes(channel?._id) ? (
-            <SubscribeBtn onClick={handleUnSubscribe}>Unsubscribe</SubscribeBtn>
+            <div
+              onClick={handleUnSubscribe}
+              className="text-white font-medium bg-red-600 rounded-[5px] my-[10px] mx-[20px] h-full border-none cursor-pointer"
+            >
+              Unsubscribe
+            </div>
           ) : (
-            <SubscribeBtn onClick={handleSubscribe}>Subscribe</SubscribeBtn>
+            <div
+              className="text-white font-medium bg-red-600 rounded-[5px] my-[10px] mx-[20px] h-full border-none cursor-pointer"
+              onClick={handleSubscribe}
+            >
+              Subscribe
+            </div>
           )}
-        </Channel>
+        </div>
 
         <Comment
           videoId={currentVideo?._id}
@@ -388,7 +536,7 @@ const Video = () => {
         <Comments></Comments>
         <Comments></Comments>
         <Comments></Comments> */}
-      </Content>
+      </div>
       {/* <Recommendation>
         <Card type="sm"></Card>
         <Card type="sm"></Card>
@@ -400,7 +548,7 @@ const Video = () => {
         <Card type="sm"></Card>
         <Card type="sm"></Card>
       </Recommendation> */}
-    </Container>
+    </div>
   );
 };
 

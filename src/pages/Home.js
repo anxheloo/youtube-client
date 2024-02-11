@@ -54,13 +54,24 @@ const Home = ({ type }) => {
   }, [type]);
 
   return (
-    <Container>
+    // <Container>
+    //   {videos.length > 0
+    //     ? videos.map((video) => {
+    //         return <Card key={video._id} video={video}></Card>;
+    //       })
+    //     : "Videos are fetching"}
+    // </Container>
+
+    <div
+      id="container"
+      className="flex justify-between flex-wrap py-[22px] px-[96px]"
+    >
       {videos.length > 0
         ? videos.map((video) => {
             return <Card key={video._id} video={video}></Card>;
           })
         : "Videos are fetching"}
-    </Container>
+    </div>
   );
 };
 
