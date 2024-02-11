@@ -30,7 +30,7 @@ window.env = {
   "NODE": "C:\\Program Files\\nodejs\\node.exe",
   "NODE_EXE": "C:\\Program Files\\nodejs\\\\node.exe",
   "NPM_CLI_JS": "C:\\Users\\GridComputers\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js",
-  "npm_command": "start",
+  "npm_command": "run-script",
   "npm_config_cache": "C:\\Users\\GridComputers\\AppData\\Local\\npm-cache",
   "npm_config_globalconfig": "C:\\Users\\GridComputers\\AppData\\Roaming\\npm\\etc\\npmrc",
   "npm_config_global_prefix": "C:\\Users\\GridComputers\\AppData\\Roaming\\npm",

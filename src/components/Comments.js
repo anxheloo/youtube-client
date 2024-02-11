@@ -43,7 +43,7 @@ const Comments = ({ comment }) => {
     const getUserById = async () => {
       try {
         const res = await axios.get(
-          `http://192.168.0.100:5001/api/users/${comment.userId}`
+          `http://192.168.0.101:5001/api/users/${comment.userId}`
         );
 
         if (res.status === 200) {
@@ -61,16 +61,32 @@ const Comments = ({ comment }) => {
   const { userId, description, videoId, createdAt } = comment;
 
   return (
-    <Container>
-      <ChannelImage src={userById?.img}></ChannelImage>
+    // <Container>
+    //   <ChannelImage src={userById?.img}></ChannelImage>
 
-      <CommentDetails>
-        <CommentName>
-          {userById?.name} <Date>&nbsp;&nbsp;{format(createdAt)}</Date>
-        </CommentName>
-        <CommentText>{description}</CommentText>
-      </CommentDetails>
-    </Container>
+    //   <CommentDetails>
+    //     <CommentName>
+    //       {userById?.name} <Date>&nbsp;&nbsp;{format(createdAt)}</Date>
+    //     </CommentName>
+    //     <CommentText>{description}</CommentText>
+    //   </CommentDetails>
+    // </Container>
+
+    <div id="container" className="flex gap-[20px] my-[40px]">
+      <img
+        alt="user"
+        src={userById?.img}
+        className="w-[36px] h-[36px] rounded-[50%] cursor-pointer"
+      ></img>
+
+      <div className="flex-1">
+        <div className="text-[14px] font-medium mb-[10px]">
+          {userById?.name}{" "}
+          <span className="text-[10px]">&nbsp;&nbsp;{format(createdAt)}</span>
+        </div>
+        <div className="text-[12px]">{description}</div>
+      </div>
+    </div>
   );
 };
 

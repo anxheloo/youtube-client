@@ -66,7 +66,7 @@ const Card = ({ type, video }) => {
     const getChannel = async () => {
       try {
         const result = await axios.get(
-          `http://192.168.0.100:5001/api/users/${video.userId}`
+          `http://192.168.0.101:5001/api/users/${video.userId}`
           // `https://youtube-server-pua8.onrender.com/api/users/${video.userId}`
           // {
           //   // credentials: "include",
@@ -115,7 +115,7 @@ const Card = ({ type, video }) => {
         >
           <source
             // src={`http://192.168.1.213:9001/${video.filename}`}
-            src={`http://192.168.0.100:5001/public/videos/${video.filename}`}
+            src={`http://192.168.0.101:5001/public/videos/${video.filename}`}
             type="video/mp4"
           />
           Your browser does not support the video tag.

@@ -47,16 +47,6 @@ const SearchInputContainer = styled.div`
   margin: auto;
 `;
 
-const SearchInput = styled.input`
-  flex: 1;
-  height: 40px;
-  background-color: transparent;
-  outline: none;
-  border: none;
-  caret-color: white;
-  color: white;
-`;
-
 const SignInButton = styled.button`
   background-color: transparent;
   border: 1px solid #3ea6ff;
@@ -94,20 +84,60 @@ const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [open, setOpen] = useState(false);
 
-  const createVideo = () => {};
-
   return (
+    // <>
+    //   {open && <UploadVideo setOpen={setOpen}></UploadVideo>}
+
+    //   <Container>
+    //     <SearchInputContainer>
+    //       <SearchInput placeholder="Search"></SearchInput>
+    //       <SearchIconStyled></SearchIconStyled>
+    //     </SearchInputContainer>
+
+    //     {currentUser ? (
+    //       <User>
+    //         <VideoCallOutlined
+    //           style={{ color: "white", fontSize: "35px" }}
+    //           onClick={() => {
+    //             setOpen(true);
+    //             console.log("this is open:", open);
+    //           }}
+    //         ></VideoCallOutlined>
+    //         <Avatar></Avatar>
+    //         <div style={{ color: "white" }}>{currentUser.name}</div>
+    //       </User>
+    //     ) : (
+    //       <Link to={"/login"} style={{ textDecoration: "none" }}>
+    //         <SignInButton>
+    //           <AccountCircleIcon></AccountCircleIcon>
+    //           SIGN IN
+    //         </SignInButton>
+    //       </Link>
+    //     )}
+    //   </Container>
+    // </>
+
     <>
       {open && <UploadVideo setOpen={setOpen}></UploadVideo>}
 
-      <Container>
-        <SearchInputContainer>
-          <SearchInput placeholder="Search"></SearchInput>
-          <SearchIconStyled></SearchIconStyled>
-        </SearchInputContainer>
+      <div
+        id="container"
+        className="bg-[#202020] h-[70px] flex items-center sticky top-0 px-[20px] justify-end z-10"
+      >
+        <div
+          id="search-input-container"
+          className="flex items-center px-[20px] max-w-[500px] flex-1 border border-gray-400 rounded-[20px] overflow-hidden absolute right-0 left-0 m-auto"
+        >
+          <input
+            placeholder="Search"
+            className="flex-1 h-[40px] bg-transparent outline-none border-[0px] caret-white text-white"
+          ></input>
+
+          <SearchIcon className="text-white cursor-pointer"></SearchIcon>
+        </div>
 
         {currentUser ? (
-          <User>
+          <div className="flex items-center gap-[10px] font-medium">
             <VideoCallOutlined
               style={{ color: "white", fontSize: "35px" }}
               onClick={() => {
@@ -115,18 +145,18 @@ const Navbar = () => {
                 console.log("this is open:", open);
               }}
             ></VideoCallOutlined>
-            <Avatar></Avatar>
+            <img className="w-[32px] h-[32px] rounded-[50%] bg-[#999]"></img>
             <div style={{ color: "white" }}>{currentUser.name}</div>
-          </User>
+          </div>
         ) : (
           <Link to={"/login"} style={{ textDecoration: "none" }}>
-            <SignInButton>
+            <button className="bg-transparent border border-[#3ea6ff] rounded-[5px] text-[#3ea6ff] font-medium py-[5px] px-[15px] mt-[10px] flex items-center gap-[5px] cursor-pointer uppercase">
               <AccountCircleIcon></AccountCircleIcon>
               SIGN IN
-            </SignInButton>
+            </button>
           </Link>
         )}
-      </Container>
+      </div>
     </>
   );
 };

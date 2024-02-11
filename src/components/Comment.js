@@ -45,7 +45,7 @@ const Comment = ({ videoId, setComments }) => {
         const tokenParsed = JSON.parse(token);
 
         const res = await axios.post(
-          "http://192.168.0.100:5001/api/comments", // Adjust the endpoint
+          "http://192.168.0.101:5001/api/comments", // Adjust the endpoint
           {
             token: tokenParsed,
             videoId, // Replace with the actual videoId
@@ -58,7 +58,7 @@ const Comment = ({ videoId, setComments }) => {
         );
 
         const commentsRes = await axios.get(
-          `http://192.168.0.100:5001/api/comments/${videoId}`
+          `http://192.168.0.101:5001/api/comments/${videoId}`
         );
 
         setComments(commentsRes.data.comments);
@@ -88,11 +88,40 @@ const Comment = ({ videoId, setComments }) => {
   };
 
   return (
-    <Container>
-      <AvatarImage src="https://yt3.googleusercontent.com/ytc/AIf8zZTDkajQxPa4sjDOW-c3er1szXkSAO-H9TiF4-8u_Q=s176-c-k-c0x00ffffff-no-rj"></AvatarImage>
+    // <Container>
+    //   <AvatarImage src="https://yt3.googleusercontent.com/ytc/AIf8zZTDkajQxPa4sjDOW-c3er1szXkSAO-H9TiF4-8u_Q=s176-c-k-c0x00ffffff-no-rj"></AvatarImage>
 
+    //   <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+    //     <CommentInput
+    //       placeholder="Add a comment"
+    //       value={commentText}
+    //       onChange={(e) => {
+    //         setCommentText(e.target.value);
+    //       }}
+    //       onFocus={() => {
+    //         setIsFocused(true);
+    //         console.log("Focused: true:", isFocused);
+    //       }}
+    //       onBlur={() => {
+    //         setIsFocused(false);
+    //         console.log("Focused: false:", isFocused);
+    //       }}
+    //       onKeyPress={handleKeyPress}
+    //     ></CommentInput>
+
+    //     <Hr></Hr>
+    //   </div>
+    // </Container>
+
+    <div id="container" className="flex gap-[20px] items-center mt-[20px]">
+      <img
+        alt="avatar"
+        className="w-[36px] h-[36px] rounded-[50%] cursor-pointer"
+        src="https://yt3.googleusercontent.com/ytc/AIf8zZTDkajQxPa4sjDOW-c3er1szXkSAO-H9TiF4-8u_Q=s176-c-k-c0x00ffffff-no-rj"
+      ></img>
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <CommentInput
+        <input
+          className="flex-1 border-none bg-transparent outline-none caret-white text-white"
           placeholder="Add a comment"
           value={commentText}
           onChange={(e) => {
@@ -107,11 +136,11 @@ const Comment = ({ videoId, setComments }) => {
             console.log("Focused: false:", isFocused);
           }}
           onKeyPress={handleKeyPress}
-        ></CommentInput>
+        ></input>
 
-        <Hr></Hr>
+        <hr className="border-[0.5px] border-[#202020] w-[100%] mt-[5px]"></hr>
       </div>
-    </Container>
+    </div>
   );
 };
 

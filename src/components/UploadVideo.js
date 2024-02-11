@@ -84,7 +84,7 @@ const UploadVideo = ({ setOpen }) => {
       formData.append("videoTags", videoTags.join(","));
 
       const response = await axios.post(
-        "http://192.168.0.100:5001/api/videos/upload",
+        "http://192.168.0.101:5001/api/videos/upload",
         formData,
         {
           headers: {

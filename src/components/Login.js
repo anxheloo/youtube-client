@@ -117,7 +117,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `http://192.168.0.100:5001/api/auth/login`,
+        `http://192.168.0.101:5001/api/auth/login`,
         // `https://youtube-server-pua8.onrender.com/api/auth/login`,
         data,
         {
@@ -150,7 +150,7 @@ const Login = () => {
       console.log("THIS IS result from signInWithPopup:", result);
 
       // axios.post("http://192.168.1.236:5001/api/auth/google/", data);
-      //  const response = await axios.post("http://192.168.0.100:5001/api/auth/google", data)
+      //  const response = await axios.post("http://192.168.0.101:5001/api/auth/google", data)
       const response = await axios.post(
         "https://youtube-server-pua8.onrender.com/api/auth/google",
         {
@@ -184,84 +184,158 @@ const Login = () => {
   };
 
   return (
-    <Container>
-      <Wrapper>
-        <Title>Sign in</Title>
-        <SubTitle>to continue to AbdullahTube</SubTitle>
+    // <Container>
+    //   <Wrapper>
+    //     <Title>Sign in</Title>
+    //     <SubTitle>to continue to AbdullahTube</SubTitle>
 
-        <InputField
+    //     <InputField
+    //       placeholder="email"
+    //       value={userLogin.email}
+    //       onChange={handleInputEmail}
+    //     ></InputField>
+    //     <InputField
+    //       placeholder="password"
+    //       value={userLogin.password}
+    //       onChange={handleInputPassword}
+    //     ></InputField>
+
+    //     <Button
+    //       onClick={() => {
+    //         console.log("These are values:", userLogin);
+    //         login();
+    //       }}
+    //     >
+    //       Sign in
+    //     </Button>
+
+    //     <SubTitle>or</SubTitle>
+
+    //     <Button onClick={signInWithGoogle}>Sign in with Google</Button>
+
+    //     <InputField
+    //       placeholder="username"
+    //       value={userRegister.username}
+    //       onChange={handleRegisterUsername}
+    //     ></InputField>
+    //     <InputField
+    //       placeholder="email"
+    //       value={userRegister.email}
+    //       onChange={handleRegisterEmail}
+    //     ></InputField>
+    //     <InputField
+    //       placeholder="password"
+    //       value={userRegister.password}
+    //       onChange={handleRegisterPassword}
+    //     ></InputField>
+
+    //     <Button
+    //       onClick={() => {
+    //         console.log("These are user register values:", userRegister);
+    //       }}
+    //     >
+    //       Sign up{" "}
+    //     </Button>
+    //   </Wrapper>
+
+    //   <div
+    //     style={{
+    //       display: "flex",
+    //       justifyContent: "space-between",
+    //       fontSize: "12px",
+    //       width: "18%",
+    //       padding: "10px 0px",
+    //     }}
+    //   >
+    //     <div>English(USA)</div>
+
+    //     <div
+    //       style={{
+    //         display: "flex",
+    //         justifyContent: "space-between",
+    //         gap: "10px",
+    //       }}
+    //     >
+    //       <div>Help</div>
+    //       <div>Privacy</div>
+    //       <div>Terms</div>
+    //     </div>
+    //   </div>
+    // </Container>
+
+    <div
+      id="container"
+      className="flex flex-col justify-center items-center text-white h-full pt-[30px]"
+    >
+      <div className="flex flex-col  items-center bg-[#202020] py-[20px] px-[30px] border border-black gap-[10px] w-[20%] min-w-[300px]">
+        <div>Sign in</div>
+        <div>to continue to video app</div>
+        <input
+          className="py-[10px] px-[15px] bg-transparent outline-none border border-black w-[80%] text-white"
           placeholder="email"
           value={userLogin.email}
           onChange={handleInputEmail}
-        ></InputField>
-        <InputField
+        ></input>
+        <input
+          className="py-[10px] px-[15px] bg-transparent outline-none border border-black w-[80%] text-white"
           placeholder="password"
           value={userLogin.password}
           onChange={handleInputPassword}
-        ></InputField>
-
-        <Button
+        ></input>
+        <button
+          className="py-[7px] px-[15px] bg-transparent text-white border border-black cursor-pointer hover:bg-[#26282a]"
           onClick={() => {
             console.log("These are values:", userLogin);
             login();
           }}
         >
           Sign in
-        </Button>
-
-        <SubTitle>or</SubTitle>
-
-        <Button onClick={signInWithGoogle}>Sign in with Google</Button>
-
-        <InputField
+        </button>
+        <div>or</div>
+        <button
+          className="py-[7px] px-[15px] bg-transparent text-white border border-black cursor-pointer hover:bg-[#26282a]"
+          onClick={signInWithGoogle}
+        >
+          Sign in with Google
+        </button>
+        <input
+          className="py-[10px] px-[15px] bg-transparent outline-none border border-black w-[80%] text-white"
           placeholder="username"
           value={userRegister.username}
           onChange={handleRegisterUsername}
-        ></InputField>
-        <InputField
+        ></input>
+        <input
+          className="py-[10px] px-[15px] bg-transparent outline-none border border-black w-[80%] text-white"
           placeholder="email"
           value={userRegister.email}
           onChange={handleRegisterEmail}
-        ></InputField>
-        <InputField
+        ></input>
+        <input
+          className="py-[10px] px-[15px] bg-transparent outline-none border border-black w-[80%] text-white"
           placeholder="password"
           value={userRegister.password}
           onChange={handleRegisterPassword}
-        ></InputField>
-
-        <Button
+        ></input>
+        <button
+          className="py-[7px] px-[15px] bg-transparent text-white border border-black cursor-pointer hover:bg-[#26282a]"
           onClick={() => {
             console.log("These are user register values:", userRegister);
           }}
         >
           Sign up{" "}
-        </Button>
-      </Wrapper>
+        </button>
+      </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          fontSize: "12px",
-          width: "18%",
-          padding: "10px 0px",
-        }}
-      >
+      <div className="flex justify-between text-[12px] w-[18%] py-[10px]">
         <div>English(USA)</div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "10px",
-          }}
-        >
+        <div className="flex justify-between gap-[10px]">
           <div>Help</div>
           <div>Privacy</div>
           <div>Terms</div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

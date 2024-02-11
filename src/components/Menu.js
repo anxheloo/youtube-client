@@ -16,6 +16,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -91,125 +92,249 @@ const Menu = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
 
   return (
-    <Container>
-      <Wrapper>
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <LogoContainer>
-            <Img src={logo} alt="website logo"></Img>
-            Tube
-          </LogoContainer>
-        </Link>
+    // <Container>
+    //   <Wrapper>
+    //     <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+    //       <LogoContainer>
+    //         <Img src={logo} alt="website logo"></Img>
+    //         Tube
+    //       </LogoContainer>
+    //     </Link>
+
+    //     <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+    //       <Item>
+    //         <HomeIcon></HomeIcon>
+    //         Home
+    //       </Item>
+    //     </Link>
+
+    //     <Link to={"/trends"} style={{ textDecoration: "none", color: "white" }}>
+    //       <Item>
+    //         <ExploreIcon></ExploreIcon>
+    //         Explore
+    //       </Item>
+    //     </Link>
+
+    //     <Link
+    //       to={"/subscriptions"}
+    //       style={{ textDecoration: "none", color: "white" }}
+    //     >
+    //       <Item>
+    //         <SubscriptionsIcon></SubscriptionsIcon>
+    //         Subscriptions
+    //       </Item>
+    //     </Link>
+
+    //     <HorizontalLine></HorizontalLine>
+
+    //     <Item>
+    //       <VideoLibraryIcon></VideoLibraryIcon>
+    //       Library
+    //     </Item>
+
+    //     <Item>
+    //       <HistoryIcon></HistoryIcon>
+    //       History
+    //     </Item>
+
+    //     {!currentUser && (
+    //       <>
+    //         <HorizontalLine></HorizontalLine>
+    //         <Link
+    //           to={"/login"}
+    //           style={{ textDecoration: "none", color: "white" }}
+    //         >
+    //           <LoginPart>
+    //             Sign in to like videos, comment, and subscribe.
+    //             <SignInButton>
+    //               <AccountCircleIcon color="#3ea6ff"></AccountCircleIcon>
+    //               Sign in
+    //             </SignInButton>
+    //           </LoginPart>
+    //         </Link>
+    //       </>
+    //     )}
+
+    //     <HorizontalLine></HorizontalLine>
+
+    //     <Title>BEST OF TUBE</Title>
+
+    //     <Item>
+    //       <LibraryMusicIcon></LibraryMusicIcon>
+    //       Music
+    //     </Item>
+
+    //     <Item>
+    //       <SportsBasketballIcon></SportsBasketballIcon>
+    //       Sports
+    //     </Item>
+
+    //     <Item>
+    //       <SportsEsportsIcon></SportsEsportsIcon>
+    //       Gaming
+    //     </Item>
+
+    //     <Item>
+    //       <MovieCreationIcon></MovieCreationIcon>
+    //       Movies
+    //     </Item>
+
+    //     <Item>
+    //       <ArticleIcon></ArticleIcon>
+    //       News
+    //     </Item>
+    //     <Item>
+    //       <LiveTvIcon></LiveTvIcon>
+    //       Live
+    //     </Item>
+
+    //     <HorizontalLine></HorizontalLine>
+
+    //     <Item>
+    //       <SettingsIcon></SettingsIcon>
+    //       Settings
+    //     </Item>
+
+    //     <Item>
+    //       <FlagIcon></FlagIcon>
+    //       Report
+    //     </Item>
+
+    //     <Item>
+    //       <HelpOutlineIcon></HelpOutlineIcon>
+    //       Help
+    //     </Item>
+
+    //     <Item>
+    //       <LightModeIcon></LightModeIcon>
+    //       Light Mode
+    //     </Item>
+    //   </Wrapper>
+    // </Container>
+
+    <div
+      id="container"
+      className="w-[15%] bg-[#202020] text-[14px] text-white min-h-screen sticky top-[0px] overflow-y-scroll scrollbar"
+    >
+      <div className="px-[18px] pb-[26px]">
+        <div className="flex gap-5 items-center h-[70px] mb-[15px]">
+          <button className=" w-[45px] h-[45px] rounded-[100%] bg-transparent hover:bg-[#2f2f2f]">
+            <MenuIcon></MenuIcon>
+          </button>
+
+          {/* <Link to="/" className="no-underline text-inherit ">
+            <div
+              id="logo-container"
+              className="flex items-center gap-[5px] font-bold"
+            >
+              <img src={logo} alt="website logo" className="h-[25px]"></img>
+              Tube
+            </div>
+          </Link> */}
+        </div>
 
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Item>
+          <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
             <HomeIcon></HomeIcon>
             Home
-          </Item>
+          </div>
         </Link>
 
         <Link to={"/trends"} style={{ textDecoration: "none", color: "white" }}>
-          <Item>
+          <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
             <ExploreIcon></ExploreIcon>
             Explore
-          </Item>
+          </div>
         </Link>
 
         <Link
           to={"/subscriptions"}
           style={{ textDecoration: "none", color: "white" }}
         >
-          <Item>
+          <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
             <SubscriptionsIcon></SubscriptionsIcon>
             Subscriptions
-          </Item>
+          </div>
         </Link>
-
-        <HorizontalLine></HorizontalLine>
-
-        <Item>
-          <VideoLibraryIcon></VideoLibraryIcon>
-          Library
-        </Item>
-
-        <Item>
-          <HistoryIcon></HistoryIcon>
-          History
-        </Item>
+        <hr className="my-[15px] bg-gray-400 border-[0.5px] border-[#373737]"></hr>
 
         {!currentUser && (
           <>
-            <HorizontalLine></HorizontalLine>
             <Link
               to={"/login"}
               style={{ textDecoration: "none", color: "white" }}
             >
-              <LoginPart>
+              <div>
                 Sign in to like videos, comment, and subscribe.
-                <SignInButton>
+                <button
+                  id="sign-in-button"
+                  className=" bg-transparent border border-[#3ea6ff] rounded-[5px] text-[#3ea6ff] font-bold py-[5px] px-[15px] mt-[10px] flex items-center gap-[5px] cursor-pointer uppercase"
+                >
                   <AccountCircleIcon color="#3ea6ff"></AccountCircleIcon>
                   Sign in
-                </SignInButton>
-              </LoginPart>
+                </button>
+              </div>
+
+              <hr className="my-[15px] bg-gray-400 border-[0.5px] border-[#373737]"></hr>
             </Link>
           </>
         )}
 
-        <HorizontalLine></HorizontalLine>
+        <h2 className="text-[14px] font-medium mb-[20px]">BEST OF TUBE</h2>
 
-        <Title>BEST OF TUBE</Title>
-
-        <Item>
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <LibraryMusicIcon></LibraryMusicIcon>
           Music
-        </Item>
+        </div>
 
-        <Item>
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <SportsBasketballIcon></SportsBasketballIcon>
           Sports
-        </Item>
+        </div>
 
-        <Item>
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <SportsEsportsIcon></SportsEsportsIcon>
           Gaming
-        </Item>
+        </div>
 
-        <Item>
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <MovieCreationIcon></MovieCreationIcon>
           Movies
-        </Item>
+        </div>
 
-        <Item>
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <ArticleIcon></ArticleIcon>
           News
-        </Item>
-        <Item>
+        </div>
+
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <LiveTvIcon></LiveTvIcon>
           Live
-        </Item>
+        </div>
 
-        <HorizontalLine></HorizontalLine>
+        <hr className="my-[15px] bg-gray-400 border-[0.5px] border-[#373737]"></hr>
 
-        <Item>
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <SettingsIcon></SettingsIcon>
           Settings
-        </Item>
+        </div>
 
-        <Item>
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <FlagIcon></FlagIcon>
           Report
-        </Item>
+        </div>
 
-        <Item>
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <HelpOutlineIcon></HelpOutlineIcon>
           Help
-        </Item>
+        </div>
 
-        <Item>
+        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <LightModeIcon></LightModeIcon>
           Light Mode
-        </Item>
-      </Wrapper>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 
