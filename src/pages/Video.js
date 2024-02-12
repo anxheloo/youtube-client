@@ -404,12 +404,13 @@ const Video = () => {
 
     <div
       id="container"
-      className="flex py-[22px] px-[96px] gap-[20px] text-white"
+      className="flex w-full h-screen justify-center p-[15px] lg:py-[22px] lg:px-[96px] gap-[20px] text-white "
     >
       <div id="content" className="flex-1">
         <div>
           <video
-            style={{ width: "100%", height: "720px" }}
+            className="w-full lg:h-full max-h-[700px]"
+            // style={{ width: "100%", height: "720px" }}
             controls
             //   autoPlay
             muted
@@ -426,12 +427,12 @@ const Video = () => {
           </video>
         </div>
 
-        <h1 className="text-[18px] font-normal mt-[20px] mb-[10px]">
+        <h1 className="text-[18px] font-normal mt-[20px] lg:mb-[10px]">
           {currentVideo?.title}
         </h1>
 
         <div className="flex items-center justify-between">
-          <span className="text-[14px] font-normal my-[30px]">
+          <span className="text-[14px] font-normal my-[10px] lg:my-[30px]">
             {currentVideo?.views} views {format(currentVideo?.createdAt)}
           </span>
 
@@ -483,7 +484,7 @@ const Video = () => {
         <hr className="border-[0.5px] border-[#202020]"></hr>
 
         <div id="channel" className="flex justify-between my-[20px]">
-          <div className="flex gap-[30px]">
+          <div className="flex gap-[10px] lg:gap-[30px]">
             <img
               className="w-[36px] h-[36px] rounded-[50%] cursor-pointer"
               src={channel?.img}
@@ -495,27 +496,31 @@ const Video = () => {
               <div className="mt-[3px] text-[12px]">
                 {channel?.subscribers} subscribers
               </div>
-              <div className="mt-[20px] text-14px">
+              {/* <div className="flex-1 mt-[10px] lg:mt-[20px] text-14px">
                 {currentVideo?.description}
-              </div>
+              </div> */}
             </div>
           </div>
 
           {currentUser?.subscribedUsers?.includes(channel?._id) ? (
-            <div
+            <button
               onClick={handleUnSubscribe}
-              className="text-white font-medium bg-red-600 rounded-[5px] my-[10px] mx-[20px] h-full border-none cursor-pointer"
+              className="text-white font-medium bg-red-600 rounded-[5px] py-[10px] px-[20px] h-full border-none cursor-pointer"
             >
               Unsubscribe
-            </div>
+            </button>
           ) : (
-            <div
+            <button
               className="text-white font-medium bg-red-600 rounded-[5px] my-[10px] mx-[20px] h-full border-none cursor-pointer"
               onClick={handleSubscribe}
             >
               Subscribe
-            </div>
+            </button>
           )}
+        </div>
+
+        <div className="flex-1 mt-[10px] lg:mt-[20px] text-14px">
+          {currentVideo?.description}
         </div>
 
         <Comment

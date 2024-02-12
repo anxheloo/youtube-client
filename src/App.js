@@ -53,7 +53,7 @@ function App() {
 
     <div
       id="container"
-      className="flex h-screen w-full bg-black overflow-hidden"
+      className="flex h-screen w-full bg-red-600 overflow-hidden"
     >
       <BrowserRouter>
         <Menu></Menu>

@@ -64,7 +64,7 @@ const Home = ({ type }) => {
 
     <div
       id="container"
-      className="flex justify-between flex-wrap py-[22px] px-[96px]"
+      className="flex w-full h-screen justify-between flex-wrap p-[10px] lg:py-[22px]  "
     >
       {videos.length > 0
         ? videos.map((video) => {

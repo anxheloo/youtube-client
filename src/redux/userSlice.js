@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  darkMode: true,
   currentUser: null,
   loading: false,
   error: false,
@@ -36,6 +37,10 @@ const userSlice = createSlice({
 
     currentUserUpdate: (state, action) => {
       state.currentUser = action.payload;
+    },
+
+    darkMode: (state) => {
+      state.darkMode = !state.darkMode;
     },
   },
 });

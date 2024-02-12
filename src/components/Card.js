@@ -101,9 +101,20 @@ const Card = ({ type, video }) => {
   };
 
   return (
+    // width: ${(props) => props.type !== "sm" && "330px"};
+    // margin-bottom: ${(props) => (props.type === "sm" ? "20px" : "45px")};
+    // cursor: pointer;
+    // display: ${(props) => props.type === "sm" && "flex"};
+    // gap: ${(props) => props.type === "sm" && "20px"};
+    // // align-items: ${(props) => props.type === "sm" && "center"};
+
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
-      <Container type={type}>
-        {/* <Image type={type} src={video.videoImg}></Image> */}
+      <div
+        type={type}
+        className={`w-full lg:w-[330px] ${
+          type === "sm" ? "mb-[20px]" : "mb-[45px]"
+        } ${type === "sm" && "gap-[20px]"} cursor-pointer`}
+      >
         <video
           style={{ flex: 1, height: "200px" }}
           controls
@@ -131,7 +142,7 @@ const Card = ({ type, video }) => {
             </Info>
           </Texts>
         </Details>
-      </Container>
+      </div>
     </Link>
   );
 };

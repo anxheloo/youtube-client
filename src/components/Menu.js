@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import logo from "../images/logo.png";
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -18,78 +17,23 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-
-const Container = styled.div`
-  flex: 1;
-  background-color: #202020;
-  height: 100vh;
-  color: white;
-  font-size: 14px;
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-`;
-
-const Wrapper = styled.div`
-  padding: 18px 26px;
-`;
-
-const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: bold;
-  margin-bottom: 25px;
-`;
-
-const Img = styled.img`
-  height: 25px;
-`;
-
-const Item = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  gap: 15px;
-  padding: 7.5px 5px;
-
-  &:hover {
-    background-color: #26282a;
-  }
-`;
-
-const HorizontalLine = styled.hr`
-  margin: 15px 0px;
-  background-color: gray;
-  border: 0.5px solid #373737;
-`;
-
-const LoginPart = styled.div``;
-
-const SignInButton = styled.button`
-  background-color: transparent;
-  border: 1px solid #3ea6ff;
-  border-radius: 5px;
-  color: #3ea6ff;
-  font-weight: 500;
-  padding: 5px 15px;
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  text-transform: uppercase;
-`;
-
-const Title = styled.h2`
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`;
+import { useSelector, useDispatch } from "react-redux";
+import { userActions } from "../redux/userSlice";
+import { useState } from "react";
 
 const Menu = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
+  const darkMode = useSelector((state) => state.user.darkMode);
+
+  const dispatch = useDispatch();
+
+  const toggleDarkMode = () => {
+    dispatch(userActions.darkMode());
+  };
+
+  console.log("this is isOpen:", isOpen);
+  console.log("This is darkMode:", darkMode);
 
   return (
     // <Container>
@@ -214,11 +158,20 @@ const Menu = () => {
 
     <div
       id="container"
-      className="w-[15%] bg-[#202020] text-[14px] text-white min-h-screen sticky top-[0px] overflow-y-scroll scrollbar"
+      className={` ${
+        isOpen ? "w-fit" : ""
+      }  bg-[#202020] text-[14px] text-white min-h-screen sticky top-[0px] overflow-y-scroll scrollbar`}
     >
-      <div className="px-[18px] pb-[26px]">
+      <div
+        className={`flex flex-col gap-3  w-full h-full ${
+          isOpen ? "px-[7px]" : "px-[18px]"
+        } pb-[26px] `}
+      >
         <div className="flex gap-5 items-center h-[70px] mb-[15px]">
-          <button className=" w-[45px] h-[45px] rounded-[100%] bg-transparent hover:bg-[#2f2f2f]">
+          <button
+            onClick={() => setIsOpen((prevValue) => !prevValue)}
+            className={`w-[45px] h-[45px] rounded-[100%] bg-transparent hover:bg-[#2f2f2f]`}
+          >
             <MenuIcon></MenuIcon>
           </button>
 
@@ -234,16 +187,25 @@ const Menu = () => {
         </div>
 
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
-            <HomeIcon></HomeIcon>
-            Home
+          <div className="flex justify-center items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
+            <HomeIcon
+              className={`h-full ${isOpen ? "w-12 h-12" : "w-6 h-6"}`}
+            ></HomeIcon>
+
+            <div className={`hidden md:${isOpen ? "hidden" : "flex flex-1"}`}>
+              Home
+            </div>
           </div>
         </Link>
 
-        <Link to={"/trends"} style={{ textDecoration: "none", color: "white" }}>
-          <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
-            <ExploreIcon></ExploreIcon>
-            Explore
+        <Link to="/trends" style={{ textDecoration: "none", color: "inherit" }}>
+          <div className="flex justify-center items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
+            <ExploreIcon
+              className={`h-full ${isOpen ? "w-12 h-12" : "w-6 h-6"}`}
+            ></ExploreIcon>
+            <div className={`hidden md:${isOpen ? "hidden" : "flex flex-1"}`}>
+              Explore
+            </div>
           </div>
         </Link>
 
@@ -251,12 +213,30 @@ const Menu = () => {
           to={"/subscriptions"}
           style={{ textDecoration: "none", color: "white" }}
         >
-          <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
-            <SubscriptionsIcon></SubscriptionsIcon>
-            Subscriptions
+          <div className="flex justify-center items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
+            <SubscriptionsIcon
+              className={`h-full ${isOpen ? "w-12 h-12" : "w-6 h-6"}`}
+            ></SubscriptionsIcon>
+            <div className={`hidden md:${isOpen ? "hidden" : "flex flex-1"}`}>
+              Subscriptions
+            </div>
           </div>
         </Link>
         <hr className="my-[15px] bg-gray-400 border-[0.5px] border-[#373737]"></hr>
+
+        <div
+          onClick={toggleDarkMode}
+          className="flex justify-center items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]"
+        >
+          <LightModeIcon
+            className={`h-full ${isOpen ? "w-12 h-12" : "w-6 h-6"}`}
+          ></LightModeIcon>
+          <div className={`hidden md:${isOpen ? "hidden" : "flex flex-1"}`}>
+            Light Mode
+          </div>
+        </div>
+
+        {/* 
 
         {!currentUser && (
           <>
@@ -284,55 +264,58 @@ const Menu = () => {
 
         <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <LibraryMusicIcon></LibraryMusicIcon>
-          Music
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>Library</div>
         </div>
 
         <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <SportsBasketballIcon></SportsBasketballIcon>
-          Sports
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>Sports</div>
         </div>
 
         <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <SportsEsportsIcon></SportsEsportsIcon>
-          Gaming
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>Gaming</div>
         </div>
 
         <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <MovieCreationIcon></MovieCreationIcon>
-          Movies
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>Movies</div>
         </div>
 
         <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <ArticleIcon></ArticleIcon>
-          News
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>News</div>
         </div>
 
         <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <LiveTvIcon></LiveTvIcon>
-          Live
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>Live</div>
         </div>
 
         <hr className="my-[15px] bg-gray-400 border-[0.5px] border-[#373737]"></hr>
 
         <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <SettingsIcon></SettingsIcon>
-          Settings
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>Settings</div>
         </div>
 
         <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <FlagIcon></FlagIcon>
-          Report
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>Report</div>
         </div>
 
         <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
           <HelpOutlineIcon></HelpOutlineIcon>
-          Help
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>Help</div>
         </div>
 
-        <div className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]">
+        <div
+          onClick={toggleDarkMode}
+          className="flex items-center cursor-pointer gap-[15px] py-[7.5px] px-[5px] hover:bg-[#26282a]"
+        >
           <LightModeIcon></LightModeIcon>
-          Light Mode
-        </div>
+          <div className={`${isOpen ? "hidden" : "flex-1"} `}>Light Mode</div>
+        </div> */}
       </div>
     </div>
   );
