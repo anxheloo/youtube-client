@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   padding: 20px;
 `;
 
-const UploadVideo = ({ setOpen }) => {
+const UploadVideo = ({ setOpen, open }) => {
   const [image, setImage] = useState(undefined);
   const [video, setVideo] = useState(undefined);
   const [imagePercentage, setImagePercentage] = useState(0);
@@ -60,11 +60,6 @@ const UploadVideo = ({ setOpen }) => {
       document.body.style.overflow = initialOverflow;
     };
   }, []);
-
-  // const handleFileChange = (event) => {
-  //   setVideo(event.target.files[0]);
-  //   console.log(video);
-  // };
 
   const uploadVideo = async (event) => {
     event.preventDefault();
@@ -99,7 +94,7 @@ const UploadVideo = ({ setOpen }) => {
       if (response.status === 200) {
         console.log("response ok");
         alert("Uploaded Successful!");
-        setOpen(false);
+        setOpen(!open);
         // window.location.href = "/";
         // history.push("/");
         // Reload the page after successful upload
@@ -113,11 +108,11 @@ const UploadVideo = ({ setOpen }) => {
   return (
     <div
       id="container"
-      className="bg-[#000000a7] w-full h-full absolute top-0 left-0 z-100 flex items-center justify-center p-[30px]"
+      className="bg-[rgba(0,0,0,0.8)] fixed inset-0 w-full h-full z-1000 flex items-center justify-center p-[30px]"
     >
       <div
         id="wrapper"
-        className="bg-[#202020] border-none rounded-[5px] flex-1 max-w-[500px] max-h-[700px] fixed top-[90px] flex flex-col justify-around p-[20px] gap-[25px]"
+        className="bg-[#202020] border-none rounded-[5px] w-full h-full max-w-[500px] max-h-[600px] flex flex-col justify-around p-[20px] gap-[25px]"
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
           <div
@@ -130,7 +125,7 @@ const UploadVideo = ({ setOpen }) => {
             }}
           >
             <button
-              onClick={() => setOpen(false)}
+              onClick={() => setOpen(!open)}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -209,7 +204,7 @@ const UploadVideo = ({ setOpen }) => {
               required
               name="description"
               placeholder="Description"
-              rows={8}
+              rows={4}
               style={{
                 backgroundColor: "#202020",
                 borderStyle: "solid",

@@ -21,3 +21,8 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/* Menu transition */
+/* .menu-transition {
+  transition: width 0.3s ease-in-out;
+} */

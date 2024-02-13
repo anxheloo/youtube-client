@@ -4,60 +4,6 @@ import styled from "styled-components";
 import { format, render, cancel, register } from "timeago.js";
 import axios from "axios";
 
-const Container = styled.div`
-  width: ${(props) => props.type !== "sm" && "330px"};
-  margin-bottom: ${(props) => (props.type === "sm" ? "20px" : "45px")};
-  cursor: pointer;
-  display: ${(props) => props.type === "sm" && "flex"};
-  gap: ${(props) => props.type === "sm" && "20px"};
-  // align-items: ${(props) => props.type === "sm" && "center"};
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: ${(props) => (props.type === "sm" ? "120px" : "202px")};
-  background-color: #999;
-  cursor: pointer;
-  // flex: ${(props) => props.type === "sm" && "1"};
-  flex: 1;
-`;
-
-const Details = styled.div`
-  width: 100%;
-  display: flex;
-  margin-top: ${(props) => (props.type === "sm" ? "0" : "16px")};
-  gap: 12px;
-  cursor: pointer;
-  // flex: ${(props) => props.type === "sm" && "1"};
-  flex: 1;
-`;
-
-const ChannelImage = styled.img`
-  display: ${(props) => props.type === "sm" && "none"};
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
-`;
-
-const Texts = styled.div`
-  color: white;
-`;
-
-const Title = styled.h1`
-  font-size: 16px;
-  font-weight: 500;
-`;
-
-const ChannelName = styled.h2`
-  font-size: 14px;
-  margin: 8px 0px;
-`;
-
-const Info = styled.div`
-  font-size: 14px;
-`;
-
 const Card = ({ type, video }) => {
   const [channel, setChannel] = useState();
   // console.log(video);
@@ -101,13 +47,6 @@ const Card = ({ type, video }) => {
   };
 
   return (
-    // width: ${(props) => props.type !== "sm" && "330px"};
-    // margin-bottom: ${(props) => (props.type === "sm" ? "20px" : "45px")};
-    // cursor: pointer;
-    // display: ${(props) => props.type === "sm" && "flex"};
-    // gap: ${(props) => props.type === "sm" && "20px"};
-    // // align-items: ${(props) => props.type === "sm" && "center"};
-
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <div
         type={type}
@@ -116,7 +55,7 @@ const Card = ({ type, video }) => {
         } ${type === "sm" && "gap-[20px]"} cursor-pointer`}
       >
         <video
-          style={{ flex: 1, height: "200px" }}
+          style={{ flex: 1, height: "200px", marginBottom: "10px" }}
           controls
           //   autoPlay
           muted
@@ -131,17 +70,27 @@ const Card = ({ type, video }) => {
           />
           Your browser does not support the video tag.
         </video>
-        <Details type={type}>
-          <ChannelImage type={type} src={channel?.img}></ChannelImage>
-          <Texts>
-            <Title>{video.title}</Title>
-            <ChannelName>{channel?.name}</ChannelName>
-            <Info>
+        <div
+          type={type}
+          className="w-[100%] flex gap-[12px] cursor-pointer flex-1"
+        >
+          <img
+            alt="img"
+            type={type}
+            src={channel?.img}
+            className={`${
+              type === "sm" && "hidden"
+            } w-[36px] h-[36px] rounded-[50%] cursor-pointer`}
+          ></img>
+          <div className="text-white">
+            <h1 className="text-[16px] font-medium">{video.title}</h1>
+            <h2 className="my-[8px] text-[14px]">{channel?.name}</h2>
+            <div className="text-14px">
               {video.views} views &nbsp; ‧ &nbsp;
               {format(video.createdAt)}
-            </Info>
-          </Texts>
-        </Details>
+            </div>
+          </div>
+        </div>
       </div>
     </Link>
   );

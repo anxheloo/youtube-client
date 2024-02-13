@@ -4,13 +4,6 @@ import Card from "../components/Card";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 22px 96px;
-`;
-
 const Home = ({ type }) => {
   const [videos, setVideos] = useState([]);
 
@@ -54,17 +47,9 @@ const Home = ({ type }) => {
   }, [type]);
 
   return (
-    // <Container>
-    //   {videos.length > 0
-    //     ? videos.map((video) => {
-    //         return <Card key={video._id} video={video}></Card>;
-    //       })
-    //     : "Videos are fetching"}
-    // </Container>
-
     <div
       id="container"
-      className="flex w-full h-screen justify-between flex-wrap p-[10px] lg:py-[22px]  "
+      className="flex w-full h-screen  gap-[20px] flex-wrap p-[10px] lg:py-[22px]  "
     >
       {videos.length > 0
         ? videos.map((video) => {
