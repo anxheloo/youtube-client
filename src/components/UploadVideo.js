@@ -79,7 +79,7 @@ const UploadVideo = ({ setOpen, open }) => {
       formData.append("videoTags", videoTags.join(","));
 
       const response = await axios.post(
-        "http://192.168.0.101:5001/api/videos/upload",
+        "https://youtube-server-pua8.onrender.com/api/videos/upload",
         formData,
         {
           headers: {

@@ -4,6 +4,7 @@ const initialState = {
   currentVideo: null,
   loading: false,
   error: false,
+  searchVideosList: null,
 };
 const videoSlice = createSlice({
   name: "video",
@@ -14,6 +15,7 @@ const videoSlice = createSlice({
     },
 
     videoSuccess: (state, action) => {
+      state.currentVideo = null;
       state.loading = false;
       state.currentVideo = action.payload;
     },
@@ -21,6 +23,15 @@ const videoSlice = createSlice({
     failToGet: (state) => {
       state.loading = false;
       state.error = true;
+    },
+
+    clearVideo: (state) => {
+      state.currentVideo = null;
+    },
+
+    search: (state, action) => {
+      state.searchVideosList = null;
+      state.searchVideosList = action.payload;
     },
   },
 });

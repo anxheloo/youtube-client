@@ -45,20 +45,20 @@ const Comment = ({ videoId, setComments }) => {
         const tokenParsed = JSON.parse(token);
 
         const res = await axios.post(
-          "http://192.168.0.101:5001/api/comments", // Adjust the endpoint
+          "https://youtube-server-pua8.onrender.com/api/comments", // Adjust the endpoint
           {
             token: tokenParsed,
             videoId, // Replace with the actual videoId
             description: commentText,
-          },
-          {
-            // credentials: "include",
-            withCredentials: true,
           }
+          // {
+          //   // credentials: "include",
+          //   withCredentials: true,
+          // }
         );
 
         const commentsRes = await axios.get(
-          `http://192.168.0.101:5001/api/comments/${videoId}`
+          `https://youtube-server-pua8.onrender.com/api/comments/${videoId}`
         );
 
         setComments(commentsRes.data.comments);

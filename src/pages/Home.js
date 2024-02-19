@@ -3,9 +3,19 @@ import styled from "styled-components";
 import Card from "../components/Card";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { actions } from "../redux/videoSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Home = ({ type }) => {
+  const dispatch = useDispatch();
+  const videoFromSearch = useSelector((state) => state.video.searchVideosList);
   const [videos, setVideos] = useState([]);
+
+  console.log("This is videoFromSearch:", videoFromSearch);
+
+  const cleanVideoSearchStateFromRedux = () => {
+    dispatch(actions.search(null));
+  };
 
   useEffect(() => {
     const getVideos = async () => {
@@ -14,11 +24,11 @@ const Home = ({ type }) => {
 
       try {
         const result = await axios.post(
-          `http://192.168.0.101:5001/api/videos/${type}`,
+          `https://youtube-server-pua8.onrender.com/api/videos/${type}`,
           { token: tokenParsed },
           {
             // credentials: "include",
-            // withCredentials: true,
+            withCredentials: true,
           }
           // ,
           // `https://youtube-server-pua8.onrender.com/api/videos/${type}`,
@@ -44,14 +54,20 @@ const Home = ({ type }) => {
     };
 
     getVideos();
+
+    return cleanVideoSearchStateFromRedux();
   }, [type]);
 
   return (
     <div
       id="container"
-      className="flex w-full h-screen  gap-[20px] flex-wrap p-[10px] lg:py-[22px]  "
+      className="flex flex-col justify-center md:flex-row lg:justify-normal w-full h-screen gap-[10px] lg:gap-[20px] flex-wrap p-[10px] lg:py-[22px]  "
     >
-      {videos.length > 0
+      {videoFromSearch
+        ? videoFromSearch.map((video) => {
+            return <Card key={video._id} video={video}></Card>;
+          })
+        : videos.length > 0
         ? videos.map((video) => {
             return <Card key={video._id} video={video}></Card>;
           })

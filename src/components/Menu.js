@@ -18,6 +18,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { actions } from "../redux/videoSlice";
 import { userActions } from "../redux/userSlice";
 import { useState } from "react";
 
@@ -25,8 +26,11 @@ const Menu = () => {
   const [isClosed, setIsClosed] = useState(true);
   const currentUser = useSelector((state) => state.user.currentUser);
   const darkMode = useSelector((state) => state.user.darkMode);
-
   const dispatch = useDispatch();
+
+  const clearSearch = () => {
+    dispatch(actions.search(null)); // Dispatch action to reset search state
+  };
 
   const toggleDarkMode = () => {
     dispatch(userActions.darkMode());
@@ -185,7 +189,11 @@ const Menu = () => {
           </Link> */}
         </div>
 
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <Link
+          onClick={clearSearch}
+          to="/"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <div className="flex justify-center items-center cursor-pointer gap-[15px] py-[7.5px] px-2 hover:bg-[#26282a]">
             <HomeIcon
               className={`h-full ${isClosed ? "w-12 h-12" : "w-6 h-6"}`}
@@ -198,7 +206,11 @@ const Menu = () => {
           </div>
         </Link>
 
-        <Link to="/trends" style={{ textDecoration: "none", color: "inherit" }}>
+        <Link
+          to="/trends"
+          onClick={clearSearch}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <div className="flex justify-center items-center cursor-pointer gap-[15px] py-[7.5px] px-2 hover:bg-[#26282a]">
             <ExploreIcon
               className={`h-full ${isClosed ? "w-12 h-12" : "w-6 h-6"}`}
@@ -210,6 +222,7 @@ const Menu = () => {
         </Link>
 
         <Link
+          onClick={clearSearch}
           to={"/subscriptions"}
           style={{ textDecoration: "none", color: "white" }}
         >

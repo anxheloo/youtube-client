@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -17,163 +17,73 @@ import axios from "axios";
 import { useLocation } from "react-router";
 import { format, render, cancel, register } from "timeago.js";
 
-const Container = styled.div`
-  display: flex;
-  padding: 22px 96px;
-  gap: 20px;
-  color: white;
-`;
-
-const Content = styled.div`
-  flex: 5;
-`;
-
-const VideoWrapper = styled.div``;
-
-const Title = styled.h1`
-  font-size: 18px;
-  font-weight: 400;
-  margin-top: 20px;
-  margin-bottom: 10px;
-`;
-
-const Details = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Info = styled.span`
-  font-size: 14px;
-  font-weight: 400;
-  margin: 30px 0px;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  gap: 20px;
-  color: white;
-`;
-
-const Button = styled.button`
-  background-color: transparent;
-  border-style: none;
-  display: flex;
-  align-items: center;
-  color: white;
-  gap: 10px;
-  cursor: pointer;
-`;
-
-const Recommendation = styled.div`
-  flex: 2;
-  // background-color: red;
-  // display: flex;
-  // // justify-content: center;
-`;
-
-const Hr = styled.hr`
-  border: 0.5px solid #202020;
-`;
-
-const Channel = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  margin-bottom: 20px;
-`;
-
-const ChannelInfo = styled.div`
-  display: flex;
-  gap: 30px;
-`;
-
-const ChannelImage = styled.img`
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
-`;
-
-const ChannelDetails = styled.div``;
-
-const ChannelName = styled.div`
-  font-size: 18px;
-  // background-color: red;
-`;
-
-const ChannelCounter = styled.div`
-  margin-top: 3px;
-  font-size: 12px;
-`;
-
-const ChannelDescription = styled.div`
-  margin-top: 20px;
-  font-size: 14px;
-`;
-
-const SubscribeBtn = styled.div`
-  color: white;
-  font-weight: bold;
-  background-color: red;
-  border-radius: 5px;
-  padding: 10px 20px;
-  height: max-content;
-  border: none;
-  cursor: pointer;
-`;
-
 const Video = () => {
+  const videoRef = useRef();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
   const currentVideo = useSelector((state) => state.video.currentVideo);
-
+  const [video, setVideo] = useState(null);
   const [channel, setChannel] = useState();
   const [comments, setComments] = useState([]);
-  // const [videoById, setVideoById] = useState();
+  let path = useLocation().pathname.split("/")[2];
 
-  const path = useLocation().pathname.split("/")[2];
-  console.log(
-    "This is path from useLocation().pathanme:",
-    useLocation().pathname
-  );
+  const cleanUpFunction = () => {
+    // dispatch(actions.clearVideo());
+    setVideo(null);
+  };
+
+  const addView = async () => {
+    try {
+      const addViewRes = await axios.put(
+        `https://youtube-server-pua8.onrender.com/api/videos/view/${path}`
+      );
+      if (addViewRes.status === 200) {
+        console.log(
+          "this is addViewRes:",
+          addViewRes.data.message,
+          addViewRes.data.views
+        );
+
+        fetchData();
+      }
+    } catch (error) {
+      console.log("Error while adding view:", error);
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const videoRes = await axios.get(
+        // `https://youtube-server-pua8.onrender.com/api/videos/${path}`
+        `https://youtube-server-pua8.onrender.com/api/videos/${path}`
+      );
+
+      dispatch(actions.videoSuccess(videoRes.data.video));
+      setVideo(videoRes.data.video);
+
+      const channelRes = await axios.get(
+        // `https://youtube-server-pua8.onrender.com/api/users/${videoRes.data.video._id}`
+        `https://youtube-server-pua8.onrender.com/api/users/${videoRes.data.video.userId}`
+      );
+      setChannel(channelRes.data.userWithoutPassword);
+
+      const commentsRes = await axios.get(
+        `https://youtube-server-pua8.onrender.com/api/comments/${path}`
+      );
+
+      setComments(commentsRes.data.comments);
+    } catch (error) {
+      console.log("This is error from useEffect:", error);
+      dispatch(actions.failToGet());
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const videoRes = await axios.get(
-          // `https://youtube-server-pua8.onrender.com/api/videos/${path}`
-          `http://192.168.0.101:5001/api/videos/${path}`
-        );
+    addView();
+    videoRef.current.play();
 
-        console.log("THis is videoRes:", videoRes);
-
-        const channelRes = await axios.get(
-          // `https://youtube-server-pua8.onrender.com/api/users/${videoRes.data.video._id}`
-          `http://192.168.0.101:5001/api/users/${videoRes.data.video.userId}`
-        );
-
-        const commentsRes = await axios.get(
-          `http://192.168.0.101:5001/api/comments/${path}`
-        );
-
-        setComments(commentsRes.data.comments);
-
-        await dispatch(actions.videoSuccess(videoRes.data.video));
-        setChannel(channelRes.data.userWithoutPassword);
-
-        console.log("This is videoRes:", videoRes.data);
-        console.log("This is channelRes:", channelRes.data);
-
-        console.log("This is current Video:", currentVideo);
-      } catch (error) {
-        console.log("This is error from useEffect:", error);
-        dispatch(actions.failToGet());
-      }
-    };
-
-    fetchData();
-  }, [path, currentUser, dispatch]);
+    return cleanUpFunction();
+  }, [path]);
 
   const handleLike = async () => {
     if (currentUser) {
@@ -182,22 +92,30 @@ const Video = () => {
         const tokenParsed = await JSON.parse(token);
 
         const res = await axios.put(
-          `http://192.168.0.101:5001/api/users/like/${currentVideo?._id}`,
-          { token: tokenParsed },
-          {
-            withCredentials: true,
-          }
+          `https://youtube-server-pua8.onrender.com/api/users/like/${video?._id}`,
+          { token: tokenParsed }
+          // {
+          //   withCredentials: true,
+          // }
         );
 
         if (res.status === 200) {
+          console.log("status 200: this is res.data:", res.data);
+          setVideo(res.data.video);
           dispatch(actions.videoSuccess(res.data.video));
         }
+
+        // if (res.status === 200) {
+        //   dispatch(actions.videoSuccess(res.data.video));
+        // }
       } catch (error) {
         console.log("This is Error from handleLike:", error);
       }
     } else {
       alert("Please log in!");
     }
+
+    console.log("Button Pressed!");
   };
 
   const handleDislike = async () => {
@@ -207,16 +125,22 @@ const Video = () => {
         const tokenParsed = await JSON.parse(token);
 
         const res = await axios.put(
-          `http://192.168.0.101:5001/api/users/dislike/${currentVideo?._id}`,
-          { token: tokenParsed },
-          {
-            withCredentials: true,
-          }
+          `https://youtube-server-pua8.onrender.com/api/users/dislike/${video?._id}`,
+          { token: tokenParsed }
+          // {
+          //   withCredentials: true,
+          // }
         );
 
         if (res.status === 200) {
+          console.log("status 200: this is res.data:", res.data);
+          setVideo(res.data.video);
           dispatch(actions.videoSuccess(res.data.video));
         }
+
+        // if (res.status === 200) {
+        //   dispatch(actions.videoSuccess(res.data.video));
+        // }
       } catch (error) {
         console.log("This is Error from handleDislike:", error);
       }
@@ -232,16 +156,17 @@ const Video = () => {
         const tokenParsed = await JSON.parse(token);
 
         const res = await axios.put(
-          `http://192.168.0.101:5001/api/users/subscribe/${channel?._id}`,
-          { token: tokenParsed },
-          {
-            withCredentials: true,
-          }
+          `https://youtube-server-pua8.onrender.com/api/users/subscribe/${channel?._id}`,
+          { token: tokenParsed }
+          // {
+          //   withCredentials: true,
+          // }
         );
 
-        console.log("This is res.data:", res.data);
+        console.log("Success! This is res.data:", res.data);
 
         if (res.status === 200) {
+          // setVideo(res.data)
           dispatch(userActions.currentUserUpdate(res.data.user));
         }
       } catch (error) {
@@ -259,11 +184,11 @@ const Video = () => {
         const tokenParsed = await JSON.parse(token);
 
         const res = await axios.put(
-          `http://0:5001/api/users/unsubscribe/${channel?._id}`,
-          { token: tokenParsed },
-          {
-            withCredentials: true,
-          }
+          `https://youtube-server-pua8.onrender.com/api/users/unsubscribe/${channel?._id}`,
+          { token: tokenParsed }
+          // {
+          //   withCredentials: true,
+          // }
         );
 
         console.log("This is res.data:", res.data);
@@ -280,135 +205,14 @@ const Video = () => {
   };
 
   return (
-    // <Container>
-    //   <Content>
-    //     <VideoWrapper>
-    //       <video
-    //         style={{ width: "100%", height: "720px" }}
-    //         controls
-    //         //   autoPlay
-    //         muted
-    //         //   poster="https://plus.unsplash.com/premium_photo-1673624400092-0e8fd6910570?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    //         // onMouseEnter={handleVideoHover}
-    //         // onMouseLeave={handleVideoHoverOut}
-    //       >
-    //         <source
-    //           // src={`http://192.168.1.213:9001/${video.filename}`}
-    //           src={`http://192.168.0.101:5001/public/videos/${currentVideo?.filename}`}
-    //           type="video/mp4"
-    //         />
-    //         Your browser does not support the video tag.
-    //       </video>
-    //     </VideoWrapper>
-
-    //     <Title>{currentVideo?.title}</Title>
-
-    //     <Details>
-    //       <Info>
-    //         {currentVideo?.views} views {format(currentVideo?.createdAt)}
-    //       </Info>
-
-    //       <Buttons>
-    //         {currentVideo?.likes?.includes(currentUser?._id) ? (
-    //           <Button>
-    //             <ThumbUpAltIcon style={{ color: "white" }}></ThumbUpAltIcon>
-    //             {currentVideo?.likes?.length}
-    //           </Button>
-    //         ) : (
-    //           <Button onClick={handleLike}>
-    //             <ThumbUpOffAltIcon
-    //               style={{ color: "white" }}
-    //             ></ThumbUpOffAltIcon>
-    //             {currentVideo?.likes?.length}
-    //           </Button>
-    //         )}
-
-    //         {currentVideo?.dislikes?.includes(currentUser?._id) ? (
-    //           <Button>
-    //             <ThumbDownAltIcon style={{ color: "white" }}></ThumbDownAltIcon>{" "}
-    //             {currentVideo?.dislikes.length}
-    //           </Button>
-    //         ) : (
-    //           <Button onClick={handleDislike}>
-    //             <ThumbDownOffAltIcon
-    //               style={{ color: "white" }}
-    //             ></ThumbDownOffAltIcon>{" "}
-    //             {currentVideo?.dislikes.length}
-    //           </Button>
-    //         )}
-
-    //         <Button>
-    //           <IosShareIcon style={{ color: "white" }}></IosShareIcon>
-    //         </Button>
-
-    //         <Button>
-    //           <LibraryAddIcon style={{ color: "white" }}></LibraryAddIcon>
-    //         </Button>
-    //       </Buttons>
-    //     </Details>
-
-    //     <Hr></Hr>
-
-    //     <Channel>
-    //       <ChannelInfo>
-    //         <ChannelImage src={channel?.img}></ChannelImage>
-    //         <ChannelDetails>
-    //           <ChannelName>{channel?.name}</ChannelName>
-    //           <ChannelCounter>
-    //             {channel?.subscribers} subscribers
-    //           </ChannelCounter>
-    //           <ChannelDescription>
-    //             {currentVideo?.description}
-    //           </ChannelDescription>
-    //         </ChannelDetails>
-    //       </ChannelInfo>
-
-    //       {currentUser?.subscribedUsers?.includes(channel?._id) ? (
-    //         <SubscribeBtn onClick={handleUnSubscribe}>Unsubscribe</SubscribeBtn>
-    //       ) : (
-    //         <SubscribeBtn onClick={handleSubscribe}>Subscribe</SubscribeBtn>
-    //       )}
-    //     </Channel>
-
-    //     <Comment
-    //       videoId={currentVideo?._id}
-    //       setComments={setComments}
-    //     ></Comment>
-
-    //     {comments &&
-    //       comments.map((comment) => {
-    //         return <Comments key={comment._id} comment={comment}></Comments>;
-    //       })}
-    //     {/* <Comments></Comments>
-    //     <Comments></Comments>
-    //     <Comments></Comments>
-    //     <Comments></Comments>
-    //     <Comments></Comments>
-    //     <Comments></Comments>
-    //     <Comments></Comments>
-    //     <Comments></Comments>
-    //     <Comments></Comments> */}
-    //   </Content>
-    //   {/* <Recommendation>
-    //     <Card type="sm"></Card>
-    //     <Card type="sm"></Card>
-    //     <Card type="sm"></Card>
-    //     <Card type="sm"></Card>
-    //     <Card type="sm"></Card>
-    //     <Card type="sm"></Card>
-    //     <Card type="sm"></Card>
-    //     <Card type="sm"></Card>
-    //     <Card type="sm"></Card>
-    //   </Recommendation> */}
-    // </Container>
-
     <div
       id="container"
-      className="flex w-full h-screen justify-center p-[15px] lg:py-[22px] lg:px-[96px] gap-[20px] text-white "
+      className="flex w-full h-screen justify-center p-[15px] lg:py-[22px] lg:px-[96px] gap-[20px] text-white lg:mb-[400px]"
     >
-      <div id="content" className="flex-1">
+      <div id="content" className="w-full h-full ">
         <div>
           <video
+            ref={videoRef}
             className="w-full lg:h-full max-h-[700px]"
             // style={{ width: "100%", height: "720px" }}
             controls
@@ -418,29 +222,32 @@ const Video = () => {
             // onMouseEnter={handleVideoHover}
             // onMouseLeave={handleVideoHoverOut}
           >
-            <source
-              // src={`http://192.168.1.213:9001/${video.filename}`}
-              src={`http://192.168.0.101:5001/public/videos/${currentVideo?.filename}`}
-              type="video/mp4"
-            />
+            {video && (
+              <source
+                // src={`http://192.168.1.213:9001/${video.filename}`}
+                src={`https://youtube-server-pua8.onrender.com/public/videos/${video?.filename}`}
+                // src={`https://youtube-server-pua8.onrender.com/public/videos/${videoById?.filename}`}
+                type="video/mp4"
+              />
+            )}
             Your browser does not support the video tag.
           </video>
         </div>
 
         <h1 className="text-[18px] font-normal mt-[20px] lg:mb-[10px]">
-          {currentVideo?.title}
+          {video?.title}
         </h1>
 
         <div className="flex items-center justify-between">
           <span className="text-[14px] font-normal my-[10px] lg:my-[30px]">
-            {currentVideo?.views} views {format(currentVideo?.createdAt)}
+            {video?.views} views {format(video?.createdAt)}
           </span>
 
-          <div className="flex gap-[20px] text-white">
-            {currentVideo?.likes?.includes(currentUser?._id) ? (
+          <div className="flex gap-[20px] text-white ">
+            {video?.likes?.includes(currentUser?._id) ? (
               <button className="bg-transparent border-none flex items-center text-white gap-[10px] cursor-pointer">
                 <ThumbUpAltIcon style={{ color: "white" }}></ThumbUpAltIcon>
-                {currentVideo?.likes?.length}
+                {video?.likes?.length}
               </button>
             ) : (
               <button
@@ -450,14 +257,14 @@ const Video = () => {
                 <ThumbUpOffAltIcon
                   style={{ color: "white" }}
                 ></ThumbUpOffAltIcon>
-                {currentVideo?.likes?.length}
+                {video?.likes?.length}
               </button>
             )}
 
-            {currentVideo?.dislikes?.includes(currentUser?._id) ? (
+            {video?.dislikes?.includes(currentUser?._id) ? (
               <button className="bg-transparent border-none flex items-center text-white gap-[10px] cursor-pointer">
                 <ThumbDownAltIcon style={{ color: "white" }}></ThumbDownAltIcon>{" "}
-                {currentVideo?.dislikes.length}
+                {video?.dislikes.length}
               </button>
             ) : (
               <button
@@ -467,7 +274,7 @@ const Video = () => {
                 <ThumbDownOffAltIcon
                   style={{ color: "white" }}
                 ></ThumbDownOffAltIcon>{" "}
-                {currentVideo?.dislikes.length}
+                {video?.dislikes.length}
               </button>
             )}
 
@@ -497,7 +304,7 @@ const Video = () => {
                 {channel?.subscribers} subscribers
               </div>
               {/* <div className="flex-1 mt-[10px] lg:mt-[20px] text-14px">
-                {currentVideo?.description}
+                {video?.description}
               </div> */}
             </div>
           </div>
@@ -511,7 +318,7 @@ const Video = () => {
             </button>
           ) : (
             <button
-              className="text-white font-medium bg-red-600 rounded-[5px] my-[10px] mx-[20px] h-full border-none cursor-pointer"
+              className="text-white font-medium bg-red-600 rounded-[5px] py-[10px] px-[20px] h-full border-none cursor-pointer"
               onClick={handleSubscribe}
             >
               Subscribe
@@ -520,13 +327,10 @@ const Video = () => {
         </div>
 
         <div className="flex-1 mt-[10px] lg:mt-[20px] text-14px">
-          {currentVideo?.description}
+          {video?.description}
         </div>
 
-        <Comment
-          videoId={currentVideo?._id}
-          setComments={setComments}
-        ></Comment>
+        <Comment videoId={video?._id} setComments={setComments}></Comment>
 
         {comments &&
           comments.map((comment) => {

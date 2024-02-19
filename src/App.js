@@ -15,7 +15,7 @@ function App() {
   return (
     <div
       id="container"
-      className="flex h-screen w-full bg-red-600 overflow-hidden"
+      className="fixed inset-0 flex h-screen w-full bg-red-600 overflow-hidden"
     >
       <BrowserRouter>
         <Menu></Menu>
