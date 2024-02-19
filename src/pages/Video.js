@@ -93,10 +93,10 @@ const Video = () => {
 
         const res = await axios.put(
           `https://youtube-server-pua8.onrender.com/api/users/like/${video?._id}`,
-          { token: tokenParsed }
-          // {
-          //   withCredentials: true,
-          // }
+          { token: tokenParsed },
+          {
+            withCredentials: true,
+          }
         );
 
         if (res.status === 200) {
@@ -126,10 +126,10 @@ const Video = () => {
 
         const res = await axios.put(
           `https://youtube-server-pua8.onrender.com/api/users/dislike/${video?._id}`,
-          { token: tokenParsed }
-          // {
-          //   withCredentials: true,
-          // }
+          { token: tokenParsed },
+          {
+            withCredentials: true,
+          }
         );
 
         if (res.status === 200) {
@@ -157,10 +157,10 @@ const Video = () => {
 
         const res = await axios.put(
           `https://youtube-server-pua8.onrender.com/api/users/subscribe/${channel?._id}`,
-          { token: tokenParsed }
-          // {
-          //   withCredentials: true,
-          // }
+          { token: tokenParsed },
+          {
+            withCredentials: true,
+          }
         );
 
         console.log("Success! This is res.data:", res.data);
@@ -185,10 +185,10 @@ const Video = () => {
 
         const res = await axios.put(
           `https://youtube-server-pua8.onrender.com/api/users/unsubscribe/${channel?._id}`,
-          { token: tokenParsed }
-          // {
-          //   withCredentials: true,
-          // }
+          { token: tokenParsed },
+          {
+            withCredentials: true,
+          }
         );
 
         console.log("This is res.data:", res.data);
